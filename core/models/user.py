@@ -22,6 +22,13 @@ class User(AbstractUser, AuditIdentifierMixin):
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]
+    REQUIRED_USER_ATTRIBUTES = {
+        "email",
+        "first_name",
+        "last_name",
+        "oidc_subject",
+        "oidc_issuer",
+    }
 
     class Meta:
         verbose_name = "user"
@@ -29,3 +36,20 @@ class User(AbstractUser, AuditIdentifierMixin):
 
     def __str__(self) -> str:
         return self.email
+
+    @classmethod
+    def create_new_user(cls, **kwargs) -> "User":
+        for key in kwargs.keys():
+            if key not in cls.REQUIRED_USER_ATTRIBUTES:
+                raise ValueError(f"Invalid attribute: {key}")
+        kwargs["username"] = kwargs.get("email").split("@")[0]
+        return cls.objects.create(**kwargs)
+
+    @classmethod
+    def update_existing_user(cls, user: "User", **kwargs) -> "User":
+        for key in kwargs.keys():
+            if key not in cls.REQUIRED_USER_ATTRIBUTES:
+                raise ValueError(f"Invalid attribute: {key}")
+            setattr(user, key, kwargs[key])
+        user.save()
+        return user

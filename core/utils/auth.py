@@ -17,7 +17,7 @@ class VerifyOidcToken:
         self._jwks = self._get_oidc_json_web_key_set()
         self._decoded_data = self._decode_user_data_from_token()
 
-    def validate_token(self) -> Dict[str, Any]:
+    def verify_token(self) -> Dict[str, Any]:
         user_data = self._get_user_info_from_decoded_claims()
         return user_data
 

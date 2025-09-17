@@ -11,6 +11,7 @@ htmlcov/
 .nox/
 .pytest_cache/
 .coverage.*
+.ruff_cache/
 # Virtual environments
 .venv
 .env

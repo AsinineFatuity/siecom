@@ -7,7 +7,7 @@ from core.models import User
 from core.utils.auth import VerifyOidcToken
 
 
-class AuthenticateUserMutation(graphene.Mutation):
+class LoginUser(graphene.Mutation):
     class Arguments:
         access_token = graphene.String(required=True)
 
@@ -19,7 +19,7 @@ class AuthenticateUserMutation(graphene.Mutation):
         try:
             user_info = VerifyOidcToken.verify_token(access_token)
             if not user_info:
-                return AuthenticateUserMutation(
+                return LoginUser(
                     success=False,
                     message=UserFeedback.INVALID_ACCESS_TOKEN,
                     user=None,
@@ -35,33 +35,33 @@ class AuthenticateUserMutation(graphene.Mutation):
                 user = User.create_new_user(**user_info)
             login(info.context, user)
 
-            return AuthenticateUserMutation(
+            return LoginUser(
                 success=True,
                 message=UserFeedback.AUTHENTICATION_SUCCESS,
                 user=user,
             )
         except Exception:
             traceback.print_exc()
-            return AuthenticateUserMutation(
+            return LoginUser(
                 success=False,
                 message=UserFeedback.AUTHENTICATION_ERROR,
                 user=None,
             )
 
 
-class LogoutUserMutation(graphene.Mutation):
+class LogoutUser(graphene.Mutation):
     success = graphene.Boolean(default_value=False)
     message = graphene.String(default_value="")
 
     def mutate(root, info):
         try:
             logout(info.context)
-            return LogoutUserMutation(success=True, message=UserFeedback.LOGOUT_SUCCESS)
+            return LogoutUser(success=True, message=UserFeedback.LOGOUT_SUCCESS)
         except Exception:
             traceback.print_exc()
-            return LogoutUserMutation(success=False, message=UserFeedback.LOGOUT_ERROR)
+            return LogoutUser(success=False, message=UserFeedback.LOGOUT_ERROR)
 
 
-class AuthMutation(graphene.ObjectType):
-    authenticate_user = AuthenticateUserMutation.Field()
-    logout_user = LogoutUserMutation.Field()
+class AuthUserMutation(graphene.ObjectType):
+    authenticate_user = LoginUser.Field()
+    logout_user = LogoutUser.Field()

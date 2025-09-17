@@ -1,7 +1,15 @@
 import os
+import sys
+import logging
+import dj_database_url
 from pathlib import Path
 from decouple import config
 from siecom.utils import get_environment, PROD_ENVIRONMENT
+
+logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+TO_SET_WARNING_LOGGING_LEVEL = ["factory", "faker", "urllib3"]
+for logger_name in TO_SET_WARNING_LOGGING_LEVEL:
+    logging.getLogger(logger_name).setLevel(logging.WARNING)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
@@ -20,14 +28,21 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
+DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
 ]
+
+PROJECT_APPS = []
+THIRD_PARTY_APPS = [
+    
+]
+INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -63,10 +78,7 @@ WSGI_APPLICATION = 'siecom.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.parse(config('DATABASE_URL'), conn_max_age=600)
 }
 
 

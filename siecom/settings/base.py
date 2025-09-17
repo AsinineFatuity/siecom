@@ -38,7 +38,7 @@ DJANGO_APPS = [
 ]
 
 PROJECT_APPS = ["core"]
-THIRD_PARTY_APPS = ["phonenumber_field"]
+THIRD_PARTY_APPS = ["phonenumber_field", "graphene_django"]
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
@@ -97,7 +97,12 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTH_USER_MODEL = "core.User"
 
-
+GRAPHENE = {
+    "SCHEMA": "siecom.schema.schema",
+    "MIDDLEWARE": [
+        "siecom.middleware.GrapheneBlockIntrospectionMiddleware",
+    ],
+}
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 

@@ -1,6 +1,5 @@
 ## Siecom Stores
-A django microservice to model simple store functionalities as an excuse to explore complex devops concepts
-
+A django-graphql microservice to model simple store operations
 ### Running The Project 
 * Root directory refers to the location where `manage.py` file is
 

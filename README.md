@@ -61,6 +61,7 @@ As much as possible all feedback is written per [this convention](https://github
    * We thus use a custom `CustomDjangoObjectType` class in `api/graphql/public_identifier` for any graphql type
    * New models should inherit the `AuditIdentifierMixin` from `api/models/abstract` that automatically adds a uuid4 `public_id` field that is unique to each instance upon creation
    * See `api/graphql/user` for an example of such implementation
+4. For any new migrations use the `--name` flag to provide a descriptive name 
 
 ## Unit Tests
 * We use [pytest-django](https://pytest-django.readthedocs.io/en/latest/) to create and run tests

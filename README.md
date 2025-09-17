@@ -5,7 +5,7 @@ A django microservice to model simple store functionalities as an excuse to expl
 * Root directory refers to the location where `manage.py` file is
 
 1. Run `git clone` on your local directory
-2. Install `uv` tool from this link [https://docs.astral.sh/uv/getting-started/installation/]
+2. Install `uv` tool from this link https://docs.astral.sh/uv/getting-started/installation/
 3. Create a new virtual environment by running `uv venv .venv` in your root directory
 4. Activate the environment by running `source .venv/bin/activate`
 5. Install packages using the command `uv sync`

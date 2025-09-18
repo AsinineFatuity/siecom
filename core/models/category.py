@@ -1,6 +1,7 @@
 from typing import Type, List, TYPE_CHECKING
 from django.db import models
 from django.db.models.functions import Lower
+from mptt.models import MPTTModel, TreeForeignKey
 from core.models.abstract import AuditIdentifierMixin, AuditIdentifierManager
 
 if TYPE_CHECKING:
@@ -12,8 +13,8 @@ class CategoryModelManager(AuditIdentifierManager):
     pass
 
 
-class Category(AuditIdentifierMixin):
-    parent = models.ForeignKey(
+class Category(AuditIdentifierMixin, MPTTModel):
+    parent = TreeForeignKey(
         "self",
         on_delete=models.CASCADE,
         related_name="subcategories",
@@ -30,6 +31,9 @@ class Category(AuditIdentifierMixin):
         constraints = [
             models.UniqueConstraint(Lower("name"), name="unique_category_name_ci")
         ]
+
+    class MPTTMeta:
+        order_insertion_by = ["name"]
 
     def __str__(self) -> str:
         return self.name

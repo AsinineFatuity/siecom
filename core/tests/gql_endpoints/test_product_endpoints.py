@@ -2,6 +2,7 @@ import pytest
 from core.graphql.product.feedback import ProductFeedback
 from core.tests.gql_queries import product as product_queries
 from core.tests.utils import faker_factory
+from core.models import Product, Category
 
 
 def create_product_inputs():
@@ -94,6 +95,7 @@ def test_create_product_invalid_inputs(authenticated_client, test_case, request,
     assert len(data["createdProducts"]) == 0
 
 
+@pytest.mark.only
 def test_create_product_valid_inputs(authenticated_client, db):
     """
     Test creating products with valid inputs.
@@ -115,3 +117,10 @@ def test_create_product_valid_inputs(authenticated_client, db):
     created_product_names = [p["name"] for p in data["createdProducts"]]
     for product in products_input:
         assert product["name"].lower() in created_product_names
+    all_products = Product.objects.all()
+    assert all_products.count() == len(products_input)
+    all_categories = Category.objects.all()
+    assert all_categories.count() == len(categories_input)
+    for product in data["createdProducts"]:
+        assert product["category"]["name"].lower() == "samsung"
+        assert product["category"]["parent"]["name"].lower() == "android"

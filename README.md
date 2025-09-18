@@ -35,7 +35,9 @@ if [ -n "$files" ]; then
     # Add the formatted files back to staging
     git add $files
     echo "Running ruff linting tool on staged files..."
-    ruff check $files
+    ruff check $files --fix
+    # Add fixed & linted files back to staging
+    git add $files
 else
    echo "No staged files found to run ruff formatter on ..."
 fi

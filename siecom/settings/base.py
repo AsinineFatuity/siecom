@@ -99,6 +99,7 @@ AUTH_USER_MODEL = "core.User"
 
 GRAPHENE = {
     "SCHEMA": "siecom.schema.schema",
+    "ATOMIC_MUTATIONS": True,
     "MIDDLEWARE": [
         "siecom.middleware.GrapheneBlockIntrospectionMiddleware",
     ],

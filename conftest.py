@@ -1,4 +1,5 @@
 import pytest
+from typing import Union
 from graphene.test import Client
 from django.test.client import RequestFactory
 from siecom.schema import schema
@@ -8,8 +9,10 @@ from core.models import User
 
 
 class TestContext:
-    def __init__(self, user: User):
-        self.user = user
+    def __init__(self, user: Union[User, None]):
+        request_factory = RequestFactory()
+        self.request = request_factory.post("/graphql/")
+        self.request.user = user
 
 
 @pytest.fixture
@@ -28,9 +31,9 @@ def unauth_client():
     """
     Fixture to create an unauthenticated GraphQL client.
     """
-    request_factory = RequestFactory()
-    request = request_factory.post("/graphql/")
-    return Client(schema, context_value=request)
+    context_value = TestContext(None)
+    unauth_client = Client(schema, context_value=context_value)
+    return unauth_client
 
 
 @pytest.fixture(autouse=True)

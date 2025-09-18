@@ -8,12 +8,12 @@ from core.graphql.product.types import AverageCategoryPriceType
 
 
 class ProductQuery(graphene.ObjectType):
-    average_category_price = graphene.Field(
+    average_price_per_category = graphene.Field(
         AverageCategoryPriceType, category_id=graphene.ID(required=True)
     )
 
     @logged_in_user_required
-    def resolve_average_category_price(root, info, category_id):
+    def resolve_average_price_per_category(root, info, category_id):
         try:
             category = Category.objects.get_object_by_public_id(category_id)
             if not category:
@@ -32,8 +32,8 @@ class ProductQuery(graphene.ObjectType):
             )
             return AverageCategoryPriceType(
                 success=True,
-                message=ProductFeedback.PRICE_CALCULATION_SUCCESS,
-                average_price=average_price,
+                message=ProductFeedback.AVERAGE_PRICE_CALCULATION_SUCCESS,
+                average_price=round(average_price, 2),
                 category=category,
             )
 
@@ -41,7 +41,7 @@ class ProductQuery(graphene.ObjectType):
             traceback.print_exc()
             return AverageCategoryPriceType(
                 success=False,
-                message=ProductFeedback.PRICE_CALCULATION_ERROR,
+                message=ProductFeedback.AVERAGE_PRICE_CALCULATION_ERROR,
                 average_price=0.0,
                 category=None,
             )

@@ -22,3 +22,22 @@ def create_product_mutation():
         }
     }
     """
+
+
+def calculate_average_price_query(category_id: str):
+    return (
+        """
+    query {
+        averagePricePerCategory(categoryId: "%s") {
+            category {
+                id
+                name
+            }
+            averagePrice
+            success
+            message
+        }
+    }
+    """
+        % category_id
+    )

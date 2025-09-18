@@ -95,11 +95,8 @@ def test_create_product_invalid_inputs(authenticated_client, test_case, request,
     assert len(data["createdProducts"]) == 0
 
 
-@pytest.mark.only
-def test_create_product_valid_inputs(authenticated_client, db):
-    """
-    Test creating products with valid inputs.
-    """
+@pytest.fixture
+def created_products(authenticated_client, db):
     products_input = create_product_inputs()
     categories_input = create_category_inputs()
     response = authenticated_client.execute(
@@ -121,6 +118,35 @@ def test_create_product_valid_inputs(authenticated_client, db):
     assert all_products.count() == len(products_input)
     all_categories = Category.objects.all()
     assert all_categories.count() == len(categories_input)
-    for product in data["createdProducts"]:
+    return data["createdProducts"]
+
+
+def test_create_product_valid_inputs(created_products):
+    """
+    Test creating products with valid inputs.
+    """
+    for product in created_products:
         assert product["category"]["name"].lower() == "samsung"
         assert product["category"]["parent"]["name"].lower() == "android"
+
+
+def test_calculate_average_price_per_category(
+    authenticated_client, created_products, db
+):
+    """
+    Test calculating average price per category.
+    """
+    electronics_category = Category.objects.get(name__iexact="Electronics")
+    expected_average_price = sum(
+        [float(product["price"]) for product in created_products]
+    ) / len(created_products)
+    expected_average_price = round(expected_average_price, 2)
+    response = authenticated_client.execute(
+        product_queries.calculate_average_price_query(electronics_category.public_id)
+    )
+    assert "errors" not in response
+    data = response["data"]["averagePricePerCategory"]
+    assert data["category"]["id"] == str(electronics_category.public_id)
+    assert data["averagePrice"] == expected_average_price
+    assert data["success"]
+    assert data["message"] == ProductFeedback.AVERAGE_PRICE_CALCULATION_SUCCESS

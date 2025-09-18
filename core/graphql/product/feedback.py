@@ -6,5 +6,7 @@ class ProductFeedback:
     CATEGORIES_ARE_REQUIRED = "At least one category must be provided."
     CREATION_ERROR = "An error occurred while creating products or categories."
     CATEGORY_DOES_NOT_EXIST = "Category does not exist."
-    PRICE_CALCULATION_ERROR = "An error occurred while calculating the average price."
-    PRICE_CALCULATION_SUCCESS = "Average price was calculated successfully."
+    AVERAGE_PRICE_CALCULATION_ERROR = (
+        "An error occurred while calculating the average price."
+    )
+    AVERAGE_PRICE_CALCULATION_SUCCESS = "Average price was calculated successfully."

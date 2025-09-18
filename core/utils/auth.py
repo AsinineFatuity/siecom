@@ -10,8 +10,8 @@ class VerifyOidcToken:
     OIDC_PUBLIC_KEY_CACHE_KEY = "oidc_jwks"
     OIDC_USERINFO_CACHE_KEY = "oidc_userinfo"
 
-    def __init__(self, oidc_token: str):
-        self._oidc_access_token = oidc_token
+    def __init__(self, oidc_access_token: str):
+        self._oidc_access_token = oidc_access_token
         self._oidc_domain = config("OIDC_DOMAIN")
         self._oidc_audience = config("OIDC_AUDIENCE")
         self._jwks = self._get_oidc_json_web_key_set()

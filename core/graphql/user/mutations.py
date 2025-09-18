@@ -9,15 +9,15 @@ from core.utils.auth import VerifyOidcToken
 
 class LoginUser(graphene.Mutation):
     class Arguments:
-        access_token = graphene.String(required=True)
+        oidc_access_token = graphene.String(required=True)
 
     success = graphene.Boolean()
     message = graphene.String()
     user = graphene.Field(UserType)
 
-    def mutate(root, info, access_token):
+    def mutate(root, info, oidc_access_token):
         try:
-            user_info = VerifyOidcToken.verify_token(access_token)
+            user_info = VerifyOidcToken.verify_token(oidc_access_token)
             if not user_info:
                 return LoginUser(
                     success=False,

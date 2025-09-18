@@ -1,8 +1,11 @@
-from typing import Type, List
+from typing import Type, List, TYPE_CHECKING
 from django.db import models
 from django.db.models.functions import Lower
 from core.models.abstract import AuditIdentifierMixin, AuditIdentifierManager
-from core.graphql.product.types import CategoryInputType
+
+if TYPE_CHECKING:
+    # NOTE: Solving circular import for type checking only
+    from core.graphql.product.types import CategoryInputType
 
 
 class CategoryModelManager(AuditIdentifierManager):
@@ -33,7 +36,7 @@ class Category(AuditIdentifierMixin):
 
     @classmethod
     def create_category_hierarchy(
-        cls, categories: List[CategoryInputType]
+        cls, categories: List["CategoryInputType"]
     ) -> "Category":
         """
         Create or get a hierarchy of categories based on the provided list.
@@ -59,4 +62,4 @@ class Category(AuditIdentifierMixin):
                 # avoid duplicated categories in the same hierarchy creation
                 cat_name_obj_dict[name_lower] = category
             parent = category
-        return parent
+        return cls.objects.select_related("parent").get(id=parent.id)

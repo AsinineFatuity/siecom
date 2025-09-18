@@ -25,3 +25,4 @@ class ProductInputType(graphene.InputObjectType):
     name = graphene.String(required=True)
     description = graphene.String(required=True)
     price = graphene.Float(required=True)
+    stock = graphene.Int(required=True)

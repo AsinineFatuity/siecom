@@ -1,6 +1,6 @@
 import graphene
 import traceback
-from django.contrib.auth import login, logout
+from django.contrib.auth import logout
 from core.graphql.user.types import UserType
 from core.graphql.user.feedback import UserFeedback
 from core.models import User
@@ -26,8 +26,6 @@ class LoginUser(graphene.Mutation):
                     user=None,
                 )
             user = User.create_or_update_user(**user_info)
-            login(info.context, user)
-
             return LoginUser(
                 success=True,
                 message=UserFeedback.AUTHENTICATION_SUCCESS,

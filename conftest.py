@@ -2,6 +2,7 @@ import pytest
 from graphene.test import Client
 from siecom.schema import schema
 from core.tests.factory import UserFactory
+from core.tests.utils import make_oidc_token
 from core.models import User
 
 
@@ -37,3 +38,19 @@ def mock_oidc_env_vars(monkeypatch):
     monkeypatch.setenv("OIDC_ISSUER", "https://dev-xyz123.us.auth0.com")
     monkeypatch.setenv("OIDC_AUDIENCE", "https://dev-xyz123.us.auth0.com/api/v2/")
     yield
+
+
+@pytest.fixture
+def valid_oidc_token():
+    """
+    Fixture to provide a valid OIDC access token for testing.
+    """
+    return make_oidc_token()
+
+
+@pytest.fixture
+def invalid_oidc_token():
+    """
+    Fixture to provide an invalid OIDC access token for testing.
+    """
+    return make_oidc_token(exp_minutes=-5)

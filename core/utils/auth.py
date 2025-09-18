@@ -58,7 +58,7 @@ class OidcTokenVerifier:
         rsa_key = {}
         decoded_data = {}
         for key in self._jwks["keys"]:
-            if key["kid"] == unverified_header["kid"]:
+            if key["kid"] == unverified_header.get("kid", ""):
                 rsa_key = {
                     "kty": key["kty"],
                     "kid": key["kid"],

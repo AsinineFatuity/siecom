@@ -38,18 +38,27 @@ class User(AbstractUser, AuditIdentifierMixin):
         return self.email
 
     @classmethod
-    def create_new_user(cls, **kwargs) -> "User":
-        for key in kwargs.keys():
+    def create_or_update_user(cls, **user_info) -> "User":
+        for key in user_info.keys():
             if key not in cls.REQUIRED_USER_ATTRIBUTES:
                 raise ValueError(f"Invalid attribute: {key}")
-        kwargs["username"] = kwargs.get("email").split("@")[0]
-        return cls.objects.create(**kwargs)
+        existing_user = cls.objects.filter(
+            oidc_subject=user_info.get("oidc_subject"),
+            oidc_issuer=user_info.get("oidc_issuer"),
+            email=user_info.get("email"),
+        ).first()
+        if existing_user:
+            return cls._update_existing_user(existing_user, **user_info)
+        return cls._create_new_user(**user_info)
 
     @classmethod
-    def update_existing_user(cls, user: "User", **kwargs) -> "User":
-        for key in kwargs.keys():
-            if key not in cls.REQUIRED_USER_ATTRIBUTES:
-                raise ValueError(f"Invalid attribute: {key}")
-            setattr(user, key, kwargs[key])
+    def _create_new_user(cls, **user_info) -> "User":
+        user_info["username"] = user_info.get("email").split("@")[0]
+        return cls.objects.create(**user_info)
+
+    @classmethod
+    def _update_existing_user(cls, user: "User", **user_info) -> "User":
+        for key in user_info.keys():
+            setattr(user, key, user_info[key])
         user.save()
         return user

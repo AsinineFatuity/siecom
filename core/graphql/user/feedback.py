@@ -4,4 +4,3 @@ class UserFeedback:
     AUTHENTICATION_ERROR = "An error occurred while authenticating user"
     LOGOUT_SUCCESS = "You have been logged out"
     LOGOUT_ERROR = "An error occurred while logging out user"
-    INVALID_PHONE_NUMBER = "Invalid phone number"

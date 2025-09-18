@@ -24,15 +24,7 @@ class LoginUser(graphene.Mutation):
                     message=UserFeedback.INVALID_ACCESS_TOKEN,
                     user=None,
                 )
-            user = User.objects.filter(
-                oidc_subject=user_info.get("sub"),
-                oidc_issuer=user_info.get("iss"),
-                email=user_info.get("email"),
-            ).first()
-            if user:
-                User.update_existing_user(user, **user_info)
-            else:
-                user = User.create_new_user(**user_info)
+            user = User.create_or_update_user(**user_info)
             login(info.context, user)
 
             return LoginUser(
@@ -54,12 +46,15 @@ class LogoutUser(graphene.Mutation):
     message = graphene.String(default_value="")
 
     def mutate(root, info):
+        success = False
+        message = UserFeedback.LOGOUT_ERROR
         try:
             logout(info.context)
-            return LogoutUser(success=True, message=UserFeedback.LOGOUT_SUCCESS)
+            success = True
+            message = UserFeedback.LOGOUT_SUCCESS
         except Exception:
             traceback.print_exc()
-            return LogoutUser(success=False, message=UserFeedback.LOGOUT_ERROR)
+        return LogoutUser(success=success, message=message)
 
 
 class AuthUserMutation(graphene.ObjectType):

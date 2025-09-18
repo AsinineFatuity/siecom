@@ -60,14 +60,12 @@ INVALID_CREATE_PRODUCTS_TEST_CASES = {
 }
 
 
-@pytest.mark.only
-@pytest.mark.django_db
 @pytest.mark.parametrize(
     "test_case",
     INVALID_CREATE_PRODUCTS_TEST_CASES.values(),
     ids=INVALID_CREATE_PRODUCTS_TEST_CASES.keys(),
 )
-def test_create_product_invalid_inputs(authenticated_client, test_case, request):
+def test_create_product_invalid_inputs(authenticated_client, test_case, request, db):
     """
     Test creating products with invalid inputs.
     """
@@ -94,3 +92,26 @@ def test_create_product_invalid_inputs(authenticated_client, test_case, request)
     assert not data["success"]
     assert data["message"] == test_case["expected_error"]
     assert len(data["createdProducts"]) == 0
+
+
+def test_create_product_valid_inputs(authenticated_client, db):
+    """
+    Test creating products with valid inputs.
+    """
+    products_input = create_product_inputs()
+    categories_input = create_category_inputs()
+    response = authenticated_client.execute(
+        product_queries.create_product_mutation(),
+        variable_values={
+            "products": products_input,
+            "categories": categories_input,
+        },
+    )
+    assert "errors" not in response
+    data = response["data"]["createProduct"]
+    assert data["success"]
+    assert data["message"] == ProductFeedback.PRODUCT_CREATION_SUCCESS
+    assert len(data["createdProducts"]) == len(products_input)
+    created_product_names = [p["name"] for p in data["createdProducts"]]
+    for product in products_input:
+        assert product["name"].lower() in created_product_names

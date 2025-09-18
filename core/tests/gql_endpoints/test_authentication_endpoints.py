@@ -38,6 +38,7 @@ def test_auth_user_with_invalid_token(
     response = unauthenticated_client.execute(
         user_queries.login_user_mutation(invalid_oidc_token),
     )
+    assert "errors" not in response
     data = response["data"]["loginUser"]
     assert not data["success"]
     assert data["message"] == UserFeedback.INVALID_ACCESS_TOKEN
@@ -93,6 +94,7 @@ def test_auth_user_with_valid_token(
     response = unauthenticated_client.execute(
         user_queries.login_user_mutation(valid_oidc_token),
     )
+    assert "errors" not in response
     data = response["data"]["loginUser"]
     assert data["success"]
     assert data["message"] == UserFeedback.AUTHENTICATION_SUCCESS

@@ -1,3 +1,4 @@
+import decimal
 from typing import Type, List, TYPE_CHECKING
 from django.db import models
 from django.db.models.functions import Lower
@@ -53,7 +54,7 @@ class Product(AuditIdentifierMixin):
                     cls(
                         name=product_input.name.lower(),
                         description=product_input.description,
-                        price=product_input.price,
+                        price=decimal.Decimal(product_input.price),
                         stock=product_input.stock,
                         category_id=category.id,
                     )

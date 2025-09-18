@@ -3,7 +3,7 @@ from graphql import GraphQLError
 from graphql.type import GraphQLResolveInfo
 
 
-def context(f):
+def context(func):
     """NOTE: Decorator to extract & inject context from GraphQL resolver arguments."""
 
     def gql_decorator(func):

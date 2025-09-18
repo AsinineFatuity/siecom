@@ -17,8 +17,8 @@ class Category(AuditIdentifierMixin):
         "self",
         on_delete=models.CASCADE,
         related_name="subcategories",
-        blank=False,
-        null=False,
+        blank=True,
+        null=True,
     )
     name = models.CharField(max_length=255)
     description = models.TextField(blank=False, null=False)

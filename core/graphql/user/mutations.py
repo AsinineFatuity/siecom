@@ -4,7 +4,7 @@ from django.contrib.auth import login, logout
 from core.graphql.user.types import UserType
 from core.graphql.user.feedback import UserFeedback
 from core.models import User
-from core.utils.auth import VerifyOidcToken
+from core.utils.auth import OidcTokenVerifier
 
 
 class LoginUser(graphene.Mutation):
@@ -17,7 +17,7 @@ class LoginUser(graphene.Mutation):
 
     def mutate(root, info, oidc_access_token):
         try:
-            user_info = VerifyOidcToken.verify_token(oidc_access_token)
+            user_info = OidcTokenVerifier.verify_token(oidc_access_token)
             if not user_info:
                 return LoginUser(
                     success=False,

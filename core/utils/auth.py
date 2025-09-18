@@ -6,7 +6,7 @@ from decouple import config
 from django.core.cache import cache
 
 
-class VerifyOidcToken:
+class OidcTokenVerifier:
     OIDC_PUBLIC_KEY_CACHE_KEY = "oidc_jwks"
     OIDC_USERINFO_CACHE_KEY = "oidc_userinfo"
 

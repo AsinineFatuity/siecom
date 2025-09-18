@@ -1,4 +1,3 @@
-import pytest
 from core.tests.gql_queries import user as user_queries
 from core.graphql.user.feedback import UserFeedback
 

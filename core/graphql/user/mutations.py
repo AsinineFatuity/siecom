@@ -7,6 +7,11 @@ from core.utils.auth import OidcTokenVerifier
 
 
 class LoginUser(graphene.Mutation):
+    """
+    HACK: This mutation helps to test OIDC authentication.
+    In production, authentication is handled by middleware.
+    """
+
     class Arguments:
         oidc_access_token = graphene.String(required=True)
 

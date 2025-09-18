@@ -1,5 +1,6 @@
 import pytest
 from graphene.test import Client
+from django.test.client import RequestFactory
 from siecom.schema import schema
 from core.tests.factory import UserFactory
 from core.tests.utils import make_oidc_token
@@ -27,7 +28,9 @@ def unauth_client():
     """
     Fixture to create an unauthenticated GraphQL client.
     """
-    return Client(schema, context_value=None)
+    request_factory = RequestFactory()
+    request = request_factory.post("/graphql/")
+    return Client(schema, context_value=request)
 
 
 @pytest.fixture(autouse=True)

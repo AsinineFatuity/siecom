@@ -6,17 +6,16 @@ from core.models import Product, Category
 class ProductType(CustomDjangoObjectType):
     class Meta:
         model = Product
-        fields = ["id", "name", "description", "price", "category"]
+        fields = "__all__"
 
 
 class CategoryType(CustomDjangoObjectType):
     class Meta:
         model = Category
-        fields = ["id", "name", "description"]
+        fields = "__all__"
 
 
 class CategoryInputType(graphene.InputObjectType):
-    id = graphene.ID()
     name = graphene.String(required=True)
     description = graphene.String(required=True)
 

@@ -27,6 +27,18 @@ class CreateProduct(graphene.Mutation):
     @logged_in_user_required
     def mutate(root, info, products, categories):
         try:
+            if not products:
+                return CreateProduct(
+                    success=False,
+                    message=ProductFeedback.PRODUCTS_ARE_REQUIRED,
+                    created_products=[],
+                )
+            if not categories:
+                return CreateProduct(
+                    success=False,
+                    message=ProductFeedback.CATEGORIES_ARE_REQUIRED,
+                    created_products=[],
+                )
             product_names = [p.name.lower() for p in products]
             if len(product_names) != len(set(product_names)):
                 return CreateProduct(

@@ -24,6 +24,6 @@ def logged_in_user_required(func):
     def wrapper(context, *args, **kwargs):
         if not context.user.is_authenticated:
             raise GraphQLError("You must be logged in to perform this action.")
-        return func(context, *args, **kwargs)
+        return func(*args, **kwargs)
 
     return wrapper

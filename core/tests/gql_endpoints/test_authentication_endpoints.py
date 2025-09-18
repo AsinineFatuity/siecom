@@ -17,7 +17,9 @@ class MockResponse(requests.Response):
 
 
 @mock.patch("core.utils.auth.requests.get")
-def test_auth_user_with_invalid_token(mock_get, unauth_client, invalid_oidc_token):
+def test_auth_user_with_invalid_token(
+    mock_get, unauthenticated_client, invalid_oidc_token
+):
     """
     Test authentication with an invalid OIDC access token.
     """
@@ -33,7 +35,7 @@ def test_auth_user_with_invalid_token(mock_get, unauth_client, invalid_oidc_toke
         ]
     }
     mock_get.return_value = MockResponse(mocked_response)
-    response = unauth_client.execute(
+    response = unauthenticated_client.execute(
         user_queries.login_user_mutation(invalid_oidc_token),
     )
     data = response["data"]["loginUser"]
@@ -50,7 +52,7 @@ def test_auth_user_with_valid_token(
     mock_decode,
     mock_get_unverified_header,
     mock_get,
-    unauth_client,
+    unauthenticated_client,
     valid_oidc_token,
     db,
 ):
@@ -88,7 +90,7 @@ def test_auth_user_with_valid_token(
         "given_name": "Test",
         "family_name": "User",
     }
-    response = unauth_client.execute(
+    response = unauthenticated_client.execute(
         user_queries.login_user_mutation(valid_oidc_token),
     )
     data = response["data"]["loginUser"]

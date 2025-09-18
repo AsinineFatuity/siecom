@@ -12,11 +12,12 @@ class TestContext:
     def __init__(self, user: Union[User, None]):
         request_factory = RequestFactory()
         self.request = request_factory.post("/graphql/")
+        self.user = user
         self.request.user = user
 
 
 @pytest.fixture
-def auth_client(db, user):
+def authenticated_client(db):
     """
     Fixture to create an authenticated GraphQL client.
     """
@@ -27,7 +28,7 @@ def auth_client(db, user):
 
 
 @pytest.fixture
-def unauth_client():
+def unauthenticated_client():
     """
     Fixture to create an unauthenticated GraphQL client.
     """

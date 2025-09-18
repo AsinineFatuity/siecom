@@ -56,3 +56,7 @@ class CreateProduct(graphene.Mutation):
                 message=ProductFeedback.CREATION_ERROR,
                 created_products=[],
             )
+
+
+class ProductMutation(graphene.ObjectType):
+    create_product = CreateProduct.Field()

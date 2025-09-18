@@ -1,12 +1,12 @@
 import graphene
-from core.graphql import AuthUserMutation, UserQuery
+from core.graphql import AuthUserMutation, UserQuery, ProductMutation
 
 
 class Query(UserQuery, graphene.ObjectType):
     pass
 
 
-class Mutation(AuthUserMutation, graphene.ObjectType):
+class Mutation(AuthUserMutation, ProductMutation, graphene.ObjectType):
     pass
 
 

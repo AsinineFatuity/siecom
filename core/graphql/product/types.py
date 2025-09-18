@@ -25,3 +25,10 @@ class ProductInputType(graphene.InputObjectType):
     description = graphene.String(required=True)
     price = graphene.Float(required=True)
     stock = graphene.Int(required=True)
+
+
+class AverageCategoryPriceType(graphene.ObjectType):
+    average_price = graphene.Float()
+    category = graphene.Field(CategoryType)
+    success = graphene.Boolean()
+    message = graphene.String()

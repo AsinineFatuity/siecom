@@ -1,17 +1,47 @@
 import graphene
+import traceback
 from django.db.models import Avg
-from core.models import Product
 from siecom.decorators.authorization import logged_in_user_required
+from core.models import Product, Category
+from core.graphql.product.feedback import ProductFeedback
+from core.graphql.product.types import AverageCategoryPriceType
 
 
 class ProductQuery(graphene.ObjectType):
     average_category_price = graphene.Field(
-        graphene.Float, category_id=graphene.ID(required=True)
+        AverageCategoryPriceType, category_id=graphene.ID(required=True)
     )
 
     @logged_in_user_required
     def resolve_average_category_price(root, info, category_id):
-        products = Product.objects.get_object_by_public_id(category_id)
-        if not products.exists():
-            return None
-        return products.aggregate(Avg("price"))["price__avg"]
+        try:
+            category = Category.objects.get_object_by_public_id(category_id)
+            if not category:
+                return AverageCategoryPriceType(
+                    success=False,
+                    message=ProductFeedback.CATEGORY_DOES_NOT_EXIST,
+                    average_price=0.0,
+                    category=None,
+                )
+            categories = category.get_descendants(include_self=True)
+            average_price = (
+                Product.objects.filter(category__in=categories).aggregate(
+                    avg_price=Avg("price")
+                )["avg_price"]
+                or 0.0
+            )
+            return AverageCategoryPriceType(
+                success=True,
+                message=ProductFeedback.PRICE_CALCULATION_SUCCESS,
+                average_price=average_price,
+                category=category,
+            )
+
+        except Exception:
+            traceback.print_exc()
+            return AverageCategoryPriceType(
+                success=False,
+                message=ProductFeedback.PRICE_CALCULATION_ERROR,
+                average_price=0.0,
+                category=None,
+            )

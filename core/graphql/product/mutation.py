@@ -1,12 +1,13 @@
 import graphene
 import traceback
+from siecom.decorators import logged_in_user_required
 from core.graphql.product.types import (
     ProductType,
     CategoryInputType,
     ProductInputType,
 )
 from core.graphql.product.feedback import ProductFeedback
-from siecom.decorators import logged_in_user_required
+from core.models import Product, Category
 
 
 class CreateProduct(graphene.Mutation):
@@ -26,7 +27,28 @@ class CreateProduct(graphene.Mutation):
     @logged_in_user_required
     def mutate(root, info, products, categories):
         try:
-            pass
+            product_names = [p.name.lower() for p in products]
+            if len(product_names) != len(set(product_names)):
+                return CreateProduct(
+                    success=False,
+                    message=ProductFeedback.DUPLICATE_PRODUCT_NAME,
+                    created_products=[],
+                )
+            category_names = [c.name.lower() for c in categories]
+            if len(category_names) != len(set(category_names)):
+                return CreateProduct(
+                    success=False,
+                    message=ProductFeedback.DUPLICATE_CATEGORY_NAME,
+                    created_products=[],
+                )
+            specific_category = Category.create_category_hierarchy(categories)
+            created_products = Product.create_products(products, specific_category)
+            return CreateProduct(
+                success=True,
+                message=ProductFeedback.PRODUCT_CREATION_SUCCESS,
+                created_products=created_products,
+            )
+
         except Exception:
             traceback.print_exc()
             return CreateProduct(

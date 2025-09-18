@@ -1,5 +1,5 @@
 class ProductFeedback:
     PRODUCT_CREATION_SUCCESS = "Product created successfully."
-    DUPLICATE_PRODUCT = "A product with this name already exists."
-    DUPLICATE_CATEGORY = "A category with this name already exists."
+    DUPLICATE_PRODUCT_NAME = "A duplicate product name was found."
+    DUPLICATE_CATEGORY_NAME = "A duplicate category name was found."
     CREATION_ERROR = "An error occurred while creating products or categories."

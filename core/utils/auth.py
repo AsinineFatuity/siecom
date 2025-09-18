@@ -12,7 +12,7 @@ class OidcTokenVerifier:
 
     def __init__(self, oidc_access_token: str):
         self._oidc_access_token = oidc_access_token
-        self._oidc_domain = config("OIDC_DOMAIN")
+        self._oidc_issuer = config("OIDC_ISSUER")
         self._oidc_audience = config("OIDC_AUDIENCE")
         self._jwks = self._get_oidc_json_web_key_set()
         self._decoded_data = self._decode_user_data_from_token()
@@ -22,7 +22,7 @@ class OidcTokenVerifier:
         return user_data
 
     def _get_oidc_json_web_key_set(self):
-        jwks_url = f"https://{self._oidc_domain}/.well-known/jwks.json"
+        jwks_url = f"{self._oidc_issuer}/.well-known/jwks.json"
         jwks = cache.get(self.OIDC_PUBLIC_KEY_CACHE_KEY)
         if not jwks:
             jwks = requests.get(jwks_url).json()
@@ -33,7 +33,7 @@ class OidcTokenVerifier:
         return jwks
 
     def _get_user_info_endpoint(self):
-        well_known_url = f"https://{self._oidc_domain}/.well-known/openid-configuration"
+        well_known_url = f"{self._oidc_issuer}/.well-known/openid-configuration"
         info_response = cache.get(self.OIDC_USERINFO_CACHE_KEY)
         if not info_response:
             response = requests.get(well_known_url)
@@ -70,7 +70,7 @@ class OidcTokenVerifier:
                 rsa_key,
                 algorithms=["RS256"],
                 audience=self._oidc_audience,
-                issuer=f"https://{self._oidc_domain}".rstrip("/"),
+                issuer=f"{self._oidc_issuer}".rstrip("/"),
             )
         except JWTError as e:
             logging.error(f"{__name__}: Unable to decode token - {str(e)}")

@@ -17,7 +17,8 @@ class LoginUser(graphene.Mutation):
 
     def mutate(root, info, oidc_access_token):
         try:
-            user_info = OidcTokenVerifier.verify_token(oidc_access_token)
+            verifier = OidcTokenVerifier(oidc_access_token)
+            user_info = verifier.verify_token()
             if not user_info:
                 return LoginUser(
                     success=False,
@@ -58,5 +59,5 @@ class LogoutUser(graphene.Mutation):
 
 
 class AuthUserMutation(graphene.ObjectType):
-    authenticate_user = LoginUser.Field()
+    login_user = LoginUser.Field()
     logout_user = LogoutUser.Field()

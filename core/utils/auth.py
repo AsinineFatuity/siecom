@@ -14,10 +14,16 @@ class OidcTokenVerifier:
         self._oidc_access_token = oidc_access_token
         self._oidc_issuer = config("OIDC_ISSUER")
         self._oidc_audience = config("OIDC_AUDIENCE")
-        self._jwks = self._get_oidc_json_web_key_set()
-        self._decoded_data = self._decode_user_data_from_token()
+        self._jwks = {}
+        self._decoded_data = {}
 
     def verify_token(self) -> Dict[str, Any]:
+        self._jwks = self._get_oidc_json_web_key_set()
+        if not self._jwks:
+            return {}
+        self._decoded_data = self._decode_user_data_from_token()
+        if not self._decoded_data:
+            return {}
         user_data = self._get_user_info_from_decoded_claims()
         return user_data
 
@@ -25,10 +31,12 @@ class OidcTokenVerifier:
         jwks_url = f"{self._oidc_issuer}/.well-known/jwks.json"
         jwks = cache.get(self.OIDC_PUBLIC_KEY_CACHE_KEY)
         if not jwks:
-            jwks = requests.get(jwks_url).json()
-            if not jwks:
-                logging.error(f"{__name__}: Unable to fetch OIDC public key")
-                return None
+            response = requests.get(jwks_url)
+            if response.status_code == 200:
+                jwks = response.json()
+            else:
+                logging.error(f"{__name__}: Unable to fetch OIDC public keys")
+                return {}
             cache.set(self.OIDC_PUBLIC_KEY_CACHE_KEY, jwks, timeout=60 * 60)
         return jwks
 
@@ -103,8 +111,6 @@ class OidcTokenVerifier:
             "azp": "7muEEQsA8kcvlzgZHbLGcSYTEzFDKWdN",
         }
         """
-        if not self._decoded_data:
-            return {}
         user_info = self._request_user_info_from_oidc_provider()
         return {
             "oidc_subject": self._decoded_data.get("sub"),

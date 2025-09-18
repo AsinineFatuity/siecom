@@ -1,4 +1,4 @@
-def login_user(oidc_access_token: str):
+def login_user_mutation(oidc_access_token: str):
     return (
         """
     mutation {

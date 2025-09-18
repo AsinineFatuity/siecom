@@ -102,6 +102,7 @@ GRAPHENE = {
     "ATOMIC_MUTATIONS": True,
     "MIDDLEWARE": [
         "siecom.middleware.GrapheneBlockIntrospectionMiddleware",
+        "siecom.middleware.OIDCAuthenticationMiddleware",
     ],
 }
 # Internationalization

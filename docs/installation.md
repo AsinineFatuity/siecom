@@ -81,10 +81,3 @@ As much as possible all feedback is written per [this convention](https://github
 2. To get a test coverage report:
    * Run `pytest -n auto --cov=.`
    * Generate report by running `pytest -n auto --cov=. --cov-report=term`
-
-# Project Docs
-
-- [Installation](docs/installation.md)
-- [Usage](docs/usage.md)
-- [API Reference](docs/api.md)
-- [Contributing](docs/contributing.md)

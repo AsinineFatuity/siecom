@@ -1,7 +1,7 @@
 from typing import Type, List, TYPE_CHECKING
 from django.db import models
 from django.db.models.functions import Lower
-from mptt.models import MPTTModel, TreeForeignKey
+from tree_queries.models import TreeNode
 from core.models.abstract import AuditIdentifierMixin, AuditIdentifierManager
 
 if TYPE_CHECKING:
@@ -13,14 +13,7 @@ class CategoryModelManager(AuditIdentifierManager):
     pass
 
 
-class Category(AuditIdentifierMixin, MPTTModel):
-    parent = TreeForeignKey(
-        "self",
-        on_delete=models.CASCADE,
-        related_name="subcategories",
-        blank=True,
-        null=True,
-    )
+class Category(AuditIdentifierMixin, TreeNode):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=False, null=False)
     objects: Type[CategoryModelManager] = CategoryModelManager()
@@ -31,9 +24,6 @@ class Category(AuditIdentifierMixin, MPTTModel):
         constraints = [
             models.UniqueConstraint(Lower("name"), name="unique_category_name_ci")
         ]
-
-    class MPTTMeta:
-        order_insertion_by = ["name"]
 
     def __str__(self) -> str:
         return self.name

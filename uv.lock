@@ -241,30 +241,6 @@ wheels = [
 ]
 
 [[package]]
-name = "django-js-asset"
-version = "3.1.2"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "django" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/e6/91/c63f136f553ec24fc46ccf20ac7292a8df04815b383975b6f3f7f0060217/django_js_asset-3.1.2.tar.gz", hash = "sha256:1fc7584199ed1941ed7c8e7b87ca5524bb0f2ba941561d2a104e88ee9f07bedd", size = 9471, upload-time = "2025-03-04T15:22:49.789Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/a6/cf/b208767db5e56b5189829f753eec6a14ee75d074922dc2bd19220b22a34d/django_js_asset-3.1.2-py3-none-any.whl", hash = "sha256:b5ffe376aebbd73b7af886d675ac9f43ca63b39540190fa8409c9f8e79145f68", size = 5905, upload-time = "2025-03-04T15:22:51.152Z" },
-]
-
-[[package]]
-name = "django-mptt"
-version = "0.18.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "django-js-asset" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/eb/25/04bb8e4384f3484dabbd0e2a84946f1c972b95b07512509a17aaa361be0f/django_mptt-0.18.0.tar.gz", hash = "sha256:cf5661357ff22bc64e20d3341c26e538aa54583aea0763cfe6aaec0ab8e3a8ee", size = 71407, upload-time = "2025-08-26T09:27:01.05Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/51/9e/78aad58a90f2e4d0c898eeadd2f2b720bcae29b43676dd37c2b627c4c6c6/django_mptt-0.18.0-py3-none-any.whl", hash = "sha256:bfa3f01627e3966a1df901aeca74570a3e933e66809ebf58d9df673e63627afb", size = 120157, upload-time = "2025-08-26T09:27:02.168Z" },
-]
-
-[[package]]
 name = "django-phonenumber-field"
 version = "8.1.0"
 source = { registry = "https://pypi.org/simple" }
@@ -279,6 +255,15 @@ wheels = [
 [package.optional-dependencies]
 phonenumberslite = [
     { name = "phonenumberslite" },
+]
+
+[[package]]
+name = "django-tree-queries"
+version = "0.21.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/7b/44/769b6d09aeb7323e053abe20e2503ff2cade4b3fb3c9ac9d122ff87ecc85/django_tree_queries-0.21.1.tar.gz", hash = "sha256:3ede5a594cb439a99a90ae12b6a40e609e4e4e87a6bf9b7681204ccb5884415a", size = 25832, upload-time = "2025-09-17T07:56:44.146Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/8b/03/54c76feab26d22932aa63162dcaea8382a11503c4f8bf31105037eaf65db/django_tree_queries-0.21.1-py3-none-any.whl", hash = "sha256:b97af79c094bc54072bfc6cf6b58bede9e7e34f114bb1b38158ced4b63c2cd99", size = 29794, upload-time = "2025-09-17T07:56:45.515Z" },
 ]
 
 [[package]]
@@ -630,8 +615,8 @@ dependencies = [
     { name = "cryptography" },
     { name = "dj-database-url" },
     { name = "django" },
-    { name = "django-mptt" },
     { name = "django-phonenumber-field", extra = ["phonenumberslite"] },
+    { name = "django-tree-queries" },
     { name = "graphene-django" },
     { name = "psycopg2-binary" },
     { name = "pytest-cov" },
@@ -653,8 +638,8 @@ requires-dist = [
     { name = "cryptography", specifier = ">=46.0.1" },
     { name = "dj-database-url", specifier = ">=3.0.1" },
     { name = "django", specifier = ">=5.2.6" },
-    { name = "django-mptt", specifier = ">=0.18.0" },
     { name = "django-phonenumber-field", extras = ["phonenumberslite"], specifier = ">=8.1.0" },
+    { name = "django-tree-queries", specifier = ">=0.21.1" },
     { name = "graphene-django", specifier = ">=3.2.3" },
     { name = "psycopg2-binary", specifier = ">=2.9.10" },
     { name = "pytest-cov", specifier = ">=7.0.0" },

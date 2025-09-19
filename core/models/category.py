@@ -2,14 +2,14 @@ from typing import Type, List, TYPE_CHECKING
 from django.db import models
 from django.db.models.functions import Lower
 from tree_queries.models import TreeNode
-from core.models.abstract import AuditIdentifierMixin, AuditIdentifierManager
+from core.models.abstract import AuditIdentifierMixin, CustomTreeManager
 
 if TYPE_CHECKING:
     # NOTE: Solving circular import for type checking only
     from core.graphql.product.types import CategoryInputType
 
 
-class CategoryModelManager(AuditIdentifierManager):
+class CategoryModelManager(CustomTreeManager):
     pass
 
 

@@ -23,7 +23,8 @@ class ProductQuery(graphene.ObjectType):
                     average_price=0.0,
                     category=None,
                 )
-            categories = category.get_descendants(include_self=True)
+            category: Category = category
+            categories = category.descendants(include_self=True)
             average_price = (
                 Product.objects.filter(category__in=categories).aggregate(
                     avg_price=Avg("price")

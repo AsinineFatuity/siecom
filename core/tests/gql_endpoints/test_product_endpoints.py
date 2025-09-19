@@ -5,7 +5,7 @@ from core.tests.utils import faker_factory
 from core.models import Product, Category
 
 
-def create_product_inputs():
+def get_samsung_product_inputs():
     return [
         {
             "name": "Note 10",
@@ -28,7 +28,7 @@ def create_product_inputs():
     ]
 
 
-def create_category_inputs():
+def get_samsung_category_inputs():
     return [
         {"name": "Electronics", "description": faker_factory.sentence()},
         {"name": "Mobile Phones", "description": faker_factory.sentence()},
@@ -36,6 +36,37 @@ def create_category_inputs():
         {"name": "Android", "description": faker_factory.sentence()},
         {"name": "Samsung", "description": faker_factory.sentence()},
     ]
+
+
+def get_readmi_category_inputs():
+    original_categories = get_samsung_category_inputs()
+    # replace "Samsung" with Readmi
+    original_categories[-1] = {
+        "name": "Readmi",
+        "description": faker_factory.sentence(),
+    }
+    return original_categories
+
+
+def get_readmi_product_inputs():
+    return [
+        {
+            "name": "A3X",
+            "description": faker_factory.sentence(),
+            "price": 15000,
+            "stock": 30,
+        },
+        {
+            "name": "Note 13 Pro",
+            "description": faker_factory.sentence(),
+            "price": 52000,
+            "stock": 25,
+        },
+    ]
+
+
+def get_total_price(products):
+    return sum(product["price"] for product in products)
 
 
 INVALID_CREATE_PRODUCTS_TEST_CASES = {
@@ -74,12 +105,12 @@ def test_create_product_invalid_inputs(authenticated_client, test_case, request,
     categories_input = (
         test_case["input"]
         if "duplicate_category_name" in test_id
-        else create_category_inputs()
+        else get_samsung_category_inputs()
     )
     products_input = (
         test_case["input"]
         if "duplicate_product_name" in test_id
-        else create_product_inputs()
+        else get_samsung_product_inputs()
     )
     response = authenticated_client.execute(
         product_queries.create_product_mutation(),
@@ -97,28 +128,35 @@ def test_create_product_invalid_inputs(authenticated_client, test_case, request,
 
 @pytest.fixture
 def created_products(authenticated_client, db):
-    products_input = create_product_inputs()
-    categories_input = create_category_inputs()
-    response = authenticated_client.execute(
-        product_queries.create_product_mutation(),
-        variable_values={
-            "products": products_input,
-            "categories": categories_input,
-        },
-    )
-    assert "errors" not in response
-    data = response["data"]["createProduct"]
-    assert data["success"]
-    assert data["message"] == ProductFeedback.PRODUCT_CREATION_SUCCESS
-    assert len(data["createdProducts"]) == len(products_input)
-    created_product_names = [p["name"] for p in data["createdProducts"]]
-    for product in products_input:
-        assert product["name"].lower() in created_product_names
+    products_input = get_samsung_product_inputs()
+    categories_input = get_samsung_category_inputs()
+    product_2_input = get_readmi_product_inputs()
+    category_2_input = get_readmi_category_inputs()
+    all_created_products = []
+    to_create_products = [products_input, product_2_input]
+    to_create_categories = [categories_input, category_2_input]
+    for products, categories in zip(to_create_products, to_create_categories):
+        response = authenticated_client.execute(
+            product_queries.create_product_mutation(),
+            variable_values={
+                "products": products,
+                "categories": categories,
+            },
+        )
+        assert "errors" not in response
+        data = response["data"]["createProduct"]
+        assert data["success"]
+        assert data["message"] == ProductFeedback.PRODUCT_CREATION_SUCCESS
+        assert len(data["createdProducts"]) == len(products)
+        created_product_names = [p["name"] for p in data["createdProducts"]]
+        for product in products:
+            assert product["name"].lower() in created_product_names
+        all_created_products.extend(data["createdProducts"])
     all_products = Product.objects.all()
-    assert all_products.count() == len(products_input)
+    assert all_products.count() == 5  # 3 + 2 new products
     all_categories = Category.objects.all()
-    assert all_categories.count() == len(categories_input)
-    return data["createdProducts"]
+    assert all_categories.count() == 6  # 5 + 1 new category
+    return all_created_products
 
 
 def test_create_product_valid_inputs(created_products):
@@ -126,21 +164,45 @@ def test_create_product_valid_inputs(created_products):
     Test creating products with valid inputs.
     """
     for product in created_products:
-        assert product["category"]["name"].lower() == "samsung"
+        assert product["category"]["name"].lower() in ["samsung", "readmi"]
         assert product["category"]["parent"]["name"].lower() == "android"
 
 
+AVERAGE_PRICE_TESTCASES = {
+    "electronics": {
+        "category_name": "Electronics",
+        "total_products_price": get_total_price(get_samsung_product_inputs())
+        + get_total_price(get_readmi_product_inputs()),
+        "product_count": 5,
+    },
+    "readmi": {
+        "category_name": "Readmi",
+        "total_products_price": get_total_price(get_readmi_product_inputs()),
+        "product_count": 2,
+    },
+    "samsung": {
+        "category_name": "Samsung",
+        "total_products_price": get_total_price(get_samsung_product_inputs()),
+        "product_count": 3,
+    },
+}
+
+
+@pytest.mark.parametrize(
+    "test_case",
+    AVERAGE_PRICE_TESTCASES.values(),
+    ids=AVERAGE_PRICE_TESTCASES.keys(),
+)
 def test_calculate_average_price_per_category(
-    authenticated_client, created_products, db
+    authenticated_client, created_products, db, test_case
 ):
     """
     Test calculating average price per category.
     """
-    electronics_category = Category.objects.get(name__iexact="Electronics")
-    expected_average_price = sum(
-        [float(product["price"]) for product in created_products]
-    ) / len(created_products)
-    expected_average_price = round(expected_average_price, 2)
+    electronics_category = Category.objects.get(name__iexact=test_case["category_name"])
+    expected_average_price = round(
+        test_case["total_products_price"] / test_case["product_count"], 2
+    )
     response = authenticated_client.execute(
         product_queries.calculate_average_price_query(electronics_category.public_id)
     )

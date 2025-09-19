@@ -16,14 +16,3 @@ def login_user_mutation(oidc_access_token: str):
     """
         % oidc_access_token
     )
-
-
-def logout_user_mutation():
-    return """
-    mutation {
-        logoutUser {
-            success
-            message
-        }
-    }
-    """

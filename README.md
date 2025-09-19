@@ -56,12 +56,12 @@ This custom precommit hook will ensure that all changed files are linted and for
 
 As much as possible all feedback is written per [this convention](https://github.com/octoenergy/public-conventions/blob/main/conventions/django.md#flash-messages)
   
-* See `api/graphql/user` for an example of this convention
+* See `core/graphql/user` for an example of this convention
 
 3. For any models created, we obfuscate the incremental ids so that we don't send them to the frontend
-   * We thus use a custom `CustomDjangoObjectType` class in `api/graphql/public_identifier` for any graphql type
-   * New models should inherit the `AuditIdentifierMixin` from `api/models/abstract` that automatically adds a uuid4 `public_id` field that is unique to each instance upon creation
-   * See `api/graphql/user` for an example of such implementation
+   * We thus use a custom `CustomDjangoObjectType` class in `core/graphql/public_identifier` for any graphql type
+   * New models should inherit the `AuditIdentifierMixin` from `core/models/abstract` that automatically adds a uuid4 `public_id` field that is unique to each instance upon creation
+   * See `core/graphql/user` for an example of such implementation
 4. For any new migrations use the `--name` flag to provide a descriptive name 
 
 ## Unit Tests

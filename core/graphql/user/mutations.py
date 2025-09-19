@@ -1,6 +1,5 @@
 import graphene
 import traceback
-from django.contrib.auth import logout
 from core.graphql.user.types import UserType
 from core.graphql.user.feedback import UserFeedback
 from core.models import User
@@ -8,6 +7,11 @@ from core.utils.auth import OidcTokenVerifier
 
 
 class LoginUser(graphene.Mutation):
+    """
+    HACK: This mutation helps to test OIDC authentication.
+    In production, authentication is handled by middleware.
+    """
+
     class Arguments:
         oidc_access_token = graphene.String(required=True)
 
@@ -40,22 +44,5 @@ class LoginUser(graphene.Mutation):
             )
 
 
-class LogoutUser(graphene.Mutation):
-    success = graphene.Boolean(default_value=False)
-    message = graphene.String(default_value="")
-
-    def mutate(root, info):
-        success = False
-        message = UserFeedback.LOGOUT_ERROR
-        try:
-            logout(info.context)
-            success = True
-            message = UserFeedback.LOGOUT_SUCCESS
-        except Exception:
-            traceback.print_exc()
-        return LogoutUser(success=success, message=message)
-
-
 class AuthUserMutation(graphene.ObjectType):
     login_user = LoginUser.Field()
-    logout_user = LogoutUser.Field()

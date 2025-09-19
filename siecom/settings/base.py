@@ -38,7 +38,7 @@ DJANGO_APPS = [
 ]
 
 PROJECT_APPS = ["core"]
-THIRD_PARTY_APPS = ["phonenumber_field", "graphene_django"]
+THIRD_PARTY_APPS = ["phonenumber_field", "graphene_django", "tree_queries"]
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
@@ -102,6 +102,7 @@ GRAPHENE = {
     "ATOMIC_MUTATIONS": True,
     "MIDDLEWARE": [
         "siecom.middleware.GrapheneBlockIntrospectionMiddleware",
+        "siecom.middleware.OIDCAuthenticationMiddleware",
     ],
 }
 # Internationalization

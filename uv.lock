@@ -258,6 +258,15 @@ phonenumberslite = [
 ]
 
 [[package]]
+name = "django-tree-queries"
+version = "0.21.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/7b/44/769b6d09aeb7323e053abe20e2503ff2cade4b3fb3c9ac9d122ff87ecc85/django_tree_queries-0.21.1.tar.gz", hash = "sha256:3ede5a594cb439a99a90ae12b6a40e609e4e4e87a6bf9b7681204ccb5884415a", size = 25832, upload-time = "2025-09-17T07:56:44.146Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/8b/03/54c76feab26d22932aa63162dcaea8382a11503c4f8bf31105037eaf65db/django_tree_queries-0.21.1-py3-none-any.whl", hash = "sha256:b97af79c094bc54072bfc6cf6b58bede9e7e34f114bb1b38158ced4b63c2cd99", size = 29794, upload-time = "2025-09-17T07:56:45.515Z" },
+]
+
+[[package]]
 name = "ecdsa"
 version = "0.19.1"
 source = { registry = "https://pypi.org/simple" }
@@ -607,6 +616,7 @@ dependencies = [
     { name = "dj-database-url" },
     { name = "django" },
     { name = "django-phonenumber-field", extra = ["phonenumberslite"] },
+    { name = "django-tree-queries" },
     { name = "graphene-django" },
     { name = "psycopg2-binary" },
     { name = "pytest-cov" },
@@ -629,6 +639,7 @@ requires-dist = [
     { name = "dj-database-url", specifier = ">=3.0.1" },
     { name = "django", specifier = ">=5.2.6" },
     { name = "django-phonenumber-field", extras = ["phonenumberslite"], specifier = ">=8.1.0" },
+    { name = "django-tree-queries", specifier = ">=0.21.1" },
     { name = "graphene-django", specifier = ">=3.2.3" },
     { name = "psycopg2-binary", specifier = ">=2.9.10" },
     { name = "pytest-cov", specifier = ">=7.0.0" },

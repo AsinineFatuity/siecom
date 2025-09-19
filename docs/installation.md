@@ -13,9 +13,3 @@ A django-graphql microservice to model simple store operations
   * We use [dj-database-url](https://pypi.org/project/dj-database-url/) to configure django database values
 8. Run migrations `python manage.py migrate`
 9. Run `python3 manage.py runserver` to run the backend
-# Project Docs
-
-- [Installation](docs/installation.md)
-- [Coding Conventions](docs/conventions.md)
-- [Code Quality Enforcement](docs/codequality.md)
-- [Tests](docs/tests.md)

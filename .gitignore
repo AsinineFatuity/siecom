@@ -16,3 +16,5 @@ htmlcov/
 .venv
 .env
 staticfiles/
+kubectl
+kubectl.sha256

@@ -2,7 +2,6 @@ from siecom.settings.base import *  # noqa: F403
 
 ALLOWED_HOSTS = ["*"]
 
-STATIC_ROOT = "/var/www/static/"
 # configure https and ssl settings for production
 HOST_SCHEME = "https://"
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")

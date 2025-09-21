@@ -1,5 +1,5 @@
 services:
-  web:
+  web-prod:
     build:
       context: .
       dockerfile: Dockerfile.prod
@@ -14,16 +14,22 @@ services:
       - pgdb
     depends_on:
       - pgdb
+    networks:
+      - siecom_prod_network
   nginx:
     build: ./nginx
+    volumes:
+      - static_volume:/home/app/staticfiles
     ports:
       - "80:80"
     depends_on:
-      - web
+      - web-prod
+    networks:
+      - siecom_prod_network
   pgdb:
     image: postgres:17
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data_prod:/var/lib/postgresql/data
     env_file:
       - .env.prod
     healthcheck:
@@ -32,5 +38,12 @@ services:
       timeout: 5s
       retries: 5
       start_period: 30s
+    networks:
+      - siecom_prod_network
 volumes:
-  postgres_data:
+  postgres_data_prod:
+  static_volume:
+networks:
+  siecom_prod_network:
+    driver: bridge
+    name: siecom_prod_network

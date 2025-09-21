@@ -1,5 +1,5 @@
 name: Siecom CI
-
+description: "Continuous Integration for Siecom project"
 on:
   pull_request:
     branches: [ main, develop ]
@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.11, 3.12, 3.13]
+        python-version: [3.12, 3.13]
     services:
       postgres:
         image: postgres:17
@@ -45,27 +45,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: ./.github/actions/setup-pyuv
         with:
-          python-version: "3.13"
-
-      - name: Install uv
-        run: pip install uv
-      - name: Cache uv
-        uses: actions/cache@v4
-        with:
-          path: |
-            .venv
-            ~/.cache/uv
-          key: ${{ runner.os }}-uv-${{ hashFiles('uv.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-uv-
-
-      - name: Sync dependencies
-        run: uv sync --frozen
-
+          python-version: ${{ matrix.python-version }}
       - name: Run migrations
         run: uv run python manage.py migrate --noinput
 

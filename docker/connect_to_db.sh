@@ -5,7 +5,7 @@ set -o pipefail
 set -o nounset
 
 postgres_ready(){
-uv run python << END
+python << END
 import sys
 import psycopg2
 

@@ -27,8 +27,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
  && rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /app /app
-COPY --from=ghcr.io/astral-sh/uv:0.8.13 /uv /uvx /bin/
-
 COPY ./docker/*.sh /
 RUN sed -i 's/\r$//g' /*.sh && chmod +x /*.sh
 

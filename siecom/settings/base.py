@@ -21,10 +21,6 @@ SECRET_KEY = config("SECRET_KEY")
 ENVIRONMENT = get_environment()
 DEBUG = 0 if ENVIRONMENT == PROD_ENVIRONMENT else 1
 
-
-ALLOWED_HOSTS = []
-
-
 # Application definition
 
 DJANGO_APPS = [

@@ -1,9 +1,5 @@
-FROM python:3.13-slim AS builder
-
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    UV_SYSTEM_PYTHON=1 \
-    PATH="/app/.venv/bin:$PATH"
+FROM python:3.13-slim-bookworm AS builder
+COPY --from=ghcr.io/astral-sh/uv:0.8.13 /uv /uvx /bin/
 
 WORKDIR /app
 
@@ -12,8 +8,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq-dev \
     curl \
  && rm -rf /var/lib/apt/lists/*
-
-RUN pip install --no-cache-dir uv
 
 COPY uv.lock pyproject.toml ./
 RUN uv sync --frozen --no-cache --python=/usr/local/bin/python
@@ -27,20 +21,16 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PATH="/app/.venv/bin:$PATH"
-# create the app user for running the application in a secure way
-RUN addgroup --system app && adduser --system --group app
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq5 \
  && rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /app /app
-# Ensure app user owns everything in the /app directory
-RUN chown -R app:app /app && chmod -R u+rwX /app
+COPY --from=ghcr.io/astral-sh/uv:0.8.13 /uv /uvx /bin/
 
 COPY ./docker/*.sh /
 RUN sed -i 's/\r$//g' /*.sh && chmod +x /*.sh
 
 EXPOSE 8000
-USER app
 ENTRYPOINT ["/entrypoint.sh"]

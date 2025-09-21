@@ -7,7 +7,7 @@ class GrapheneBlockIntrospectionMiddleware:
             query = GraphQLObjectType(
                 "Query",
                 lambda: {
-                    "Hello": GraphQLField(GraphQLString, resolver=lambda *_: "World")
+                    "Hello": GraphQLField(GraphQLString, resolve=lambda *_: "World")
                 },
             )
             info.schema = GraphQLSchema(query=query)

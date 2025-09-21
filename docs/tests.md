@@ -1,4 +1,4 @@
-## Unit Tests
+## Unit & Integration Tests
 * We use [pytest-django](https://pytest-django.readthedocs.io/en/latest/) to create and run tests
 * We use [factory-boy](https://factoryboy.readthedocs.io/en/stable/) to create dummy database objects
 * Run tests using 

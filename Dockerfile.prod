@@ -29,7 +29,6 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PATH="/app/.venv/bin:$PATH"
 # create the app user for running the application in a secure way
 RUN addgroup --system app && adduser --system --group app
-RUN chown -R app:app /app
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq5 \
  && rm -rf /var/lib/apt/lists/*

@@ -1,10 +1,8 @@
 name: Siecom CI
-description: "Continuous Integration for Siecom project"
+description: "Continuous Integration for Siecom Project"
 on:
   pull_request:
-    branches: [ main, develop ]
-  push:
-    branches: [ main, develop ]
+    branches: [ main ]
 
 jobs:
   lint:

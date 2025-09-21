@@ -7,9 +7,41 @@ on:
     branches: [ main, develop ]
 
 jobs:
+  strategy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.11, 3.12, 3.13]
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install uv
+        run: pip install uv
+
+      - name: Cache uv
+        uses: actions/cache@v4
+        with:
+          path: |
+            .venv
+            ~/.cache/uv
+          key: ${{ runner.os }}-uv-${{ hashFiles('uv.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-uv-
+
+      - name: Sync dependencies
+        run: uv sync --frozen
+      - name: Lint code
+        run: uv run ruff check .
   test:
     runs-on: ubuntu-latest
-
     services:
       postgres:
         image: postgres:17
@@ -53,9 +85,6 @@ jobs:
 
       - name: Sync dependencies
         run: uv sync --frozen
-        
-      - name: Lint code
-        run: uv run ruff check .
 
       - name: Run migrations
         run: uv run python manage.py migrate --noinput

@@ -96,7 +96,7 @@ AUTH_USER_MODEL = "core.User"
 GRAPHENE_MIDDLEWARES = [
     "siecom.middleware.OIDCAuthenticationMiddleware",
 ]
-if DEBUG:
+if not DEBUG:
     GRAPHENE_MIDDLEWARES.append(
         "siecom.middleware.GrapheneBlockIntrospectionMiddleware"
     )

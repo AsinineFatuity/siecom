@@ -7,11 +7,6 @@ on:
     branches: [ main, develop ]
 
 jobs:
-  strategy:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [3.11, 3.12, 3.13]
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -42,6 +37,9 @@ jobs:
         run: uv run ruff check .
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.11, 3.12, 3.13]
     services:
       postgres:
         image: postgres:17

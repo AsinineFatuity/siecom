@@ -29,11 +29,15 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PATH="/app/.venv/bin:$PATH"
 # create the app user for running the application in a secure way
 RUN addgroup --system app && adduser --system --group app
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq5 \
  && rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /app /app
+# Ensure app user owns everything in the /app directory
+RUN chown -R app:app /app && chmod -R u+rwX /app
+
 COPY ./docker/*.sh /
 RUN sed -i 's/\r$//g' /*.sh && chmod +x /*.sh
 

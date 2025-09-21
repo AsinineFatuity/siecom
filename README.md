@@ -29,3 +29,5 @@ A django-graphql microservice to model simple store operations
 - [Coding Conventions](docs/conventions.md)
 - [Code Quality Enforcement](docs/codequality.md)
 - [Tests](docs/tests.md)
+- [Deployment](docs/deployment.md)
+- [Results As Per Project Requirements](docs/results.md)

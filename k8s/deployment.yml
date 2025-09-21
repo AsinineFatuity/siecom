@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: siecom-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: siecom
+  template:
+    metadata:
+      labels:
+        app: siecom
+    spec:
+      containers:
+        - name: siecom
+          image: asininefatuity/siecom:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - secretRef:
+                name: siecom-secrets
+          command: ["gunicorn", "siecom.wsgi:application", "--bind", "0.0.0.0:8000"]
+
+      initContainers:
+        - name: migrate
+          image: asininefatuity/siecom:latest
+          command: ["python", "manage.py", "migrate", "--noinput"]
+          envFrom:
+            - secretRef:
+                name: siecom-secrets
+        - name: collectstatic
+          image: asininefatuity/siecom:latest
+          command: ["python", "manage.py", "collectstatic", "--noinput", "--clear"]
+          envFrom:
+            - secretRef:
+                name: siecom-secrets
+        

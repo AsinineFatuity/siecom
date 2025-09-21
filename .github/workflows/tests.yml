@@ -10,10 +10,10 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: ./.github/actions/setup-pyuv
+      - uses: ./github/actions/setup-pyuv
         with:
           python-version: "3.13"
-      - name: Lint code
+      - name: Lint code with ruff
         run: uv run ruff check .
   test:
     runs-on: ubuntu-latest

@@ -16,4 +16,3 @@ htmlcov/
 .venv
 .env
 staticfiles/
-.env.prod

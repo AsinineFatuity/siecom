@@ -58,7 +58,7 @@ jobs:
         run: uv sync
 
       - name: Run migrations
-        run: python manage.py migrate --noinput
+        run: uv run python manage.py migrate --noinput
 
       - name: Run tests
-        run: pytest -q --disable-warnings --maxfail=1
+        run: uv run pytest -q --disable-warnings --maxfail=1

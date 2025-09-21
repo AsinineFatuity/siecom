@@ -1,6 +1,8 @@
+import os
 from siecom.settings.base import *  # noqa: F403
 
 ALLOWED_HOSTS = ["*"]
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 # ssl settings
 HOST_SCHEME = "http://"
 SECURE_PROXY_SSL_HEADER = None

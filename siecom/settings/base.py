@@ -5,6 +5,7 @@ import dj_database_url
 from pathlib import Path
 from decouple import config
 from siecom.utils import get_environment, PROD_ENVIRONMENT
+from huey import RedisHuey
 
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 TO_SET_WARNING_LOGGING_LEVEL = ["factory", "faker", "urllib3"]
@@ -20,6 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 SECRET_KEY = config("SECRET_KEY")
 ENVIRONMENT = get_environment()
 DEBUG = 0 if ENVIRONMENT == PROD_ENVIRONMENT else 1
+USE_DOCKER = config("USE_DOCKER", default=0, cast=int)
 
 # Application definition
 
@@ -34,7 +36,12 @@ DJANGO_APPS = [
 ]
 
 PROJECT_APPS = ["core"]
-THIRD_PARTY_APPS = ["phonenumber_field", "graphene_django", "tree_queries"]
+THIRD_PARTY_APPS = [
+    "phonenumber_field",
+    "graphene_django",
+    "tree_queries",
+    "huey.contrib.djhuey",
+]
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
@@ -70,7 +77,9 @@ WSGI_APPLICATION = "siecom.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {"default": dj_database_url.parse(config("DATABASE_URL"), conn_max_age=600)}
+DB_URL = config("DOCKER_DB_URL") if USE_DOCKER else config("DATABASE_URL")
+
+DATABASES = {"default": dj_database_url.parse(DB_URL, conn_max_age=600)}
 
 
 # Password validation
@@ -129,3 +138,10 @@ STATIC_ROOT = "/home/app/staticfiles"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+REDIS_HOST = "redis" if USE_DOCKER else "localhost"
+HUEY = RedisHuey(
+    "siecom",
+    host=REDIS_HOST,
+    port=6379,
+    db=0,
+)

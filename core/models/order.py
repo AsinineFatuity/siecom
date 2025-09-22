@@ -1,5 +1,7 @@
+import decimal
 from typing import Type
 from django.db import models
+from django.db import transaction
 from core.models.abstract import AuditIdentifierMixin, AuditIdentifierManager
 from core.models.user import User
 from core.models.product import Product
@@ -68,3 +70,24 @@ class Order(AuditIdentifierMixin):
 
     def __str__(self) -> str:
         return f"Order {self.id} by {self.user.email}"
+
+    @classmethod
+    def create_order(
+        cls, user_id: int, product_id: int, address_id: int, quantity: int
+    ) -> "Order":
+        with transaction.atomic():
+            product = Product.objects.select_for_update(of=("self",)).get(id=product_id)
+            if product.stock < quantity:
+                raise ValueError("Insufficient stock for the product")
+            total_price = product.price * quantity
+            order = cls.objects.create(
+                user_id=user_id,
+                product_id=product_id,
+                address_id=address_id,
+                quantity=quantity,
+                payment_method=cls.MPESA,
+                total_price=decimal.Decimal(total_price),
+            )
+            product.stock -= quantity
+            product.save()
+        return cls.objects.select_related("user", "product", "address").get(id=order.id)

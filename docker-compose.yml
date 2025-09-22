@@ -11,6 +11,7 @@ services:
       - .env
     depends_on:
       - pgdb
+      - redis
     expose:
       - 8000
   nginx:
@@ -21,10 +22,26 @@ services:
       - web
     volumes:
       - static_volume:/home/app/staticfiles
+  huey:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python manage.py run_huey
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    depends_on:
+      - pgdb
+      - redis
+  redis:
+    image: redis:8-alpine
+    ports:
+      - "6380:6379"
   pgdb:
     image: postgres:17
     volumes:
-      - postgres_data_prod:/var/lib/postgresql/data
+      - pgdb_data:/var/lib/postgresql/data
     env_file:
       - .env
     healthcheck:
@@ -34,5 +51,5 @@ services:
       retries: 5
       start_period: 30s
 volumes:
-  postgres_data_prod:
+  pgdb_data:
   static_volume:

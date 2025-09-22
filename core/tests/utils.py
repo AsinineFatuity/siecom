@@ -1,4 +1,3 @@
-import random
 import datetime
 from jose import jwt
 from faker import Factory as FakerFactory
@@ -12,7 +11,7 @@ def format_list_items(items):
 
 
 def generate_phone_with_country_code(country_code: str = "+254") -> str:
-    local_number = "".join([str(random.randint(0, 9)) for _ in range(9)])
+    local_number = "712345678"
     return f"{country_code}{local_number}"
 
 

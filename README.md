@@ -1,6 +1,6 @@
 ## Siecom Stores
 A django-graphql microservice to model simple store operations
-### Running Using Docker 
+### Set Up With Docker 
 1. Run `git clone` on your local directory
 2. Create a `.env` file in your root directory and populate per `.env.example`
 3. Run `docker compose up --build` to spin up the docker containers
@@ -8,9 +8,11 @@ A django-graphql microservice to model simple store operations
   - `web` for our django/graphql app
   - `pgdb` for the postgres database
   - `nginx` for our reverse proxy 
+  - `huey` for background asynchronous task
+  - `redis` for storing task queues
 4. Navigate to `http://http://127.0.0.1:8080/` to confirm it is running successfully
 
-### Non Containerized
+### Set Up Without Docker
 * Root directory refers to the location where `manage.py` file is
 
 1. Run `git clone` on your local directory
@@ -23,6 +25,7 @@ A django-graphql microservice to model simple store operations
   * We use [dj-database-url](https://pypi.org/project/dj-database-url/) to configure django database values
 8. Run migrations `python manage.py migrate`
 9. Run `python3 manage.py runserver` to run the backend
+10. Install redis on your system and run `python manage.py run_huey` to run the background task process
 
 ## Project Documentation
 - [Installation](docs/installation.md)

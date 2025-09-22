@@ -57,3 +57,7 @@ class CreateOrder(graphene.Mutation):
             return CreateOrder(
                 success=False, message=OrderFeedback.ORDER_CREATION_FAILURE
             )
+
+
+class OrderMutation(graphene.ObjectType):
+    create_order = CreateOrder.Field()

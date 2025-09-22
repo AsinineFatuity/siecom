@@ -22,3 +22,12 @@ class Address(AuditIdentifierMixin):
 
     def __str__(self) -> str:
         return f"{self.street}, {self.city}, {self.user.email}"
+
+    @classmethod
+    def create_address(
+        cls, user_id: int, phone_number: str, street: str, city: str
+    ) -> "Address":
+        address = cls.objects.select_related("user").create(
+            user_id=user_id, phone_number=phone_number, street=street, city=city
+        )
+        return address

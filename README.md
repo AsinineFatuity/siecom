@@ -1,6 +1,6 @@
 ## Siecom Stores
 A django-graphql microservice to model simple store operations
-### Running Using Docker 
+### Set Up With Docker 
 1. Run `git clone` on your local directory
 2. Create a `.env` file in your root directory and populate per `.env.example`
 3. Run `docker compose up --build` to spin up the docker containers
@@ -10,7 +10,7 @@ A django-graphql microservice to model simple store operations
   - `nginx` for our reverse proxy 
 4. Navigate to `http://http://127.0.0.1:8080/` to confirm it is running successfully
 
-### Non Containerized
+### Set Up Without Docker
 * Root directory refers to the location where `manage.py` file is
 
 1. Run `git clone` on your local directory

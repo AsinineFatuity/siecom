@@ -24,7 +24,7 @@ services:
   pgdb:
     image: postgres:17
     volumes:
-      - postgres_data_prod:/var/lib/postgresql/data
+      - pgdb_data:/var/lib/postgresql/data
     env_file:
       - .env
     healthcheck:
@@ -34,5 +34,5 @@ services:
       retries: 5
       start_period: 30s
 volumes:
-  postgres_data_prod:
+  pgdb_data:
   static_volume:

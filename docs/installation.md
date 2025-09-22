@@ -1,5 +1,5 @@
 ## Running The Project 
-### Docker 
+### Set Up With Docker 
 1. Run `git clone` on your local directory
 2. Create a `.env` file in your root directory and populate per `.env.example`
 3. Run `docker compose up --build` to spin up the docker containers
@@ -8,7 +8,7 @@
   - `pgdb` for the postgres database
   - `nginx` for our reverse proxy 
 
-### Non Containerized
+### Set Up Without Docker
 * Root directory refers to the location where `manage.py` file is
 
 1. Run `git clone` on your local directory

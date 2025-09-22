@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>New Order Notification</title>
+  </head>
+  <body style="margin:0;padding:0;background-color:#f4f7fb;font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background-color:#f4f7fb;padding:24px 16px;">
+      <tr>
+        <td align="center">
+          <!-- container -->
+          <table role="presentation" cellpadding="0" cellspacing="0" width="600" style="max-width:600px;background-color:#ffffff;border-radius:10px;overflow:hidden;box-shadow:0 6px 18px rgba(18,38,63,0.08);">
+            <!-- header -->
+            <tr>
+              <td style="padding:20px 24px;background:linear-gradient(90deg,#0b66ff 0%, #17b978 100%);color:#fff;">
+                <table role="presentation" width="100%">
+                  <tr>
+                    <td style="vertical-align:middle;">
+                      <span style="font-size:18px;font-weight:700;margin-left:12px;display:inline-block;vertical-align:middle">SIECOM STORES</span>
+                    </td>
+                    <td align="right" style="vertical-align:middle;">
+                      <span style="font-size:14px;opacity:0.95;">New order alert</span>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- body -->
+            <tr>
+              <td style="padding:24px;">
+                <h2 style="margin:0 0 8px 0;font-size:20px;color:#0b66ff;">Order #{{ order_id }} needs dispatch & delivery</h2>
+                <p style="margin:0 0 18px 0;color:#254054;line-height:1.45;">
+                  Hi Admin — you have a new order that requires attention. Please prepare for dispatch and arrange delivery.
+                </p>
+
+                <!-- order card -->
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e6eef9;border-radius:8px;padding:12px;background:#fbfdff;">
+                  <tr>
+                    <td style="padding:8px 12px;">
+                      <strong style="display:block;color:#0b66ff;margin-bottom:6px;">Product</strong>
+                      <div style="font-size:15px;color:#10243a;">{{ product_name }}</div>
+                    </td>
+                    <td style="padding:8px 12px;text-align:right;white-space:nowrap;">
+                      <strong style="display:block;color:#17b978;margin-bottom:6px;">Qty</strong>
+                      <div style="font-size:15px;color:#10243a;">{{ quantity }}</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding:8px 12px;">
+                      <strong style="display:block;color:#0b66ff;margin-bottom:6px;">Customer</strong>
+                      <div style="font-size:14px;color:#10243a;">{{ customer_name }}</div>
+                    </td>
+                    <td style="padding:8px 12px;text-align:right;white-space:nowrap;">
+                      <strong style="display:block;color:#0b66ff;margin-bottom:6px;">Total</strong>
+                      <div style="font-size:15px;color:#10243a;">{{ price }}</div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td colspan="2" style="padding:8px 12px;">
+                      <strong style="display:block;color:#0b66ff;margin-bottom:6px;">Delivery address</strong>
+                      <div style="font-size:13px;color:#3a556b;line-height:1.4;">{{ address }}</div>
+                    </td>
+                  </tr>
+                </table>
+                <!-- end order card -->
+
+                <!-- notes -->
+                <p style="color:#6b7b8a;font-size:13px;margin-top:18px;line-height:1.45;">
+                  Please confirm dispatch schedule and courier assignment. If stock is low, mark the order for partial dispatch and follow up with the customer.
+                </p>
+              </td>
+            </tr>
+
+            <!-- footer -->
+            <tr>
+              <td style="padding:16px 24px;background-color:#f6fbf9;color:#2b5340;font-size:13px;">
+                <table role="presentation" width="100%">
+                  <tr>
+                    <td style="vertical-align:middle;">
+                      <span style="font-weight:700;color:#0b66ff;">SIECOM STORES</span>
+                      <div style="margin-top:6px;color:#234a3b;opacity:0.9;">Automated order notification — generated {{ now|default:"{{ now }}" }}</div>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+          </table>
+          <!-- end container -->
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

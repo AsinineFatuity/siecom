@@ -10,3 +10,4 @@ class SMSService:
             "Content-Type": "application/x-www-form-urlencoded",
             "Accept": "application/json",
         }
+        print(f"Sending SMS to {self.phone_number}: {self.message}, {headers}")

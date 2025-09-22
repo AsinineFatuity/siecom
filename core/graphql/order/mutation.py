@@ -52,8 +52,8 @@ class CreateOrder(graphene.Mutation):
                 address_id=address_instance.id,
                 quantity=quantity,
             )
-            send_order_confirmation_email_to_admin.schedule(order.id)
-            send_order_confirmation_sms_to_customer.schedule(order.id)
+            send_order_confirmation_email_to_admin.schedule(args=(order.id,))
+            send_order_confirmation_sms_to_customer.schedule(args=(order.id,))
             return CreateOrder(
                 order=order, success=True, message=OrderFeedback.ORDER_CREATION_SUCCESS
             )

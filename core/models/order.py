@@ -76,7 +76,7 @@ class Order(AuditIdentifierMixin):
         cls, user_id: int, product_id: int, address_id: int, quantity: int
     ) -> "Order":
         with transaction.atomic():
-            product = Product.objects.select_for_update().get(id=product_id)
+            product = Product.objects.select_for_update(of=("self")).get(id=product_id)
             if product.stock < quantity:
                 raise ValueError("Insufficient stock for the product")
             total_price = product.price * quantity

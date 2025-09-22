@@ -14,7 +14,7 @@ class SMSService:
         self._at_username = config("AT_USERNAME")
         self._init_service()
         self._format_phone_numbers()
-        self._response = {"message": message, "recipients": []}
+        self._response = {"message": message, "recipients": [], "api_response": {}}
 
     def _init_service(self):
         try:
@@ -40,11 +40,13 @@ class SMSService:
         except Exception as e:
             traceback.print_exc()
             logging.error(f"{__name__}: Failed to send SMS: {e}")
+        logging.info(f"{__name__}: SMS response: {self._response}")
         return self._response
 
     def _format_response(self, response: Dict[str, Any]) -> Dict[str, Any]:
         formatted_response = {
-            "message": response.get("message", ""),
+            "message": self._message,
             "recipients": response.get("recipients", []),
+            "api_response": response,
         }
         return formatted_response

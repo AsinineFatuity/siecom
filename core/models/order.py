@@ -80,7 +80,7 @@ class Order(AuditIdentifierMixin):
             if product.stock < quantity:
                 raise ValueError("Insufficient stock for the product")
             total_price = product.price * quantity
-            order = cls.objects.select_related("user", "product", "address").create(
+            order = cls.objects.create(
                 user_id=user_id,
                 product_id=product_id,
                 address_id=address_id,
@@ -90,4 +90,4 @@ class Order(AuditIdentifierMixin):
             )
             product.stock -= quantity
             product.save()
-        return order
+        return cls.objects.select_related("user", "product", "address").get(id=order.id)

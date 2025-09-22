@@ -27,7 +27,7 @@ class Address(AuditIdentifierMixin):
     def create_address(
         cls, user_id: int, phone_number: str, street: str, city: str
     ) -> "Address":
-        address = cls.objects.select_related("user").create(
+        address = cls.objects.create(
             user_id=user_id, phone_number=phone_number, street=street, city=city
         )
-        return address
+        return cls.objects.select_related("user").get(id=address.id)

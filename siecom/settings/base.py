@@ -21,6 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 SECRET_KEY = config("SECRET_KEY")
 ENVIRONMENT = get_environment()
 DEBUG = 0 if ENVIRONMENT == PROD_ENVIRONMENT else 1
+USE_DOCKER = config("USE_DOCKER", default=0, cast=int)
 
 # Application definition
 
@@ -76,7 +77,9 @@ WSGI_APPLICATION = "siecom.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {"default": dj_database_url.parse(config("DATABASE_URL"), conn_max_age=600)}
+DB_URL = config("DOCKER_DB_URL") if USE_DOCKER else config("DATABASE_URL")
+
+DATABASES = {"default": dj_database_url.parse(DB_URL, conn_max_age=600)}
 
 
 # Password validation
@@ -135,10 +138,10 @@ STATIC_ROOT = "/home/app/staticfiles"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
+REDIS_HOST = "redis" if USE_DOCKER else "localhost"
 HUEY = RedisHuey(
     "siecom",
-    host=config("REDIS_HOST", default="localhost"),
-    port=config("REDIS_PORT", default=6379, cast=int),
-    db=config("REDIS_DB", default=0, cast=int),
+    host=REDIS_HOST,
+    port=6379,
+    db=0,
 )

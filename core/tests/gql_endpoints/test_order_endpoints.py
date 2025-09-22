@@ -1,4 +1,5 @@
 import pytest
+from unittest.mock import patch
 from uuid import uuid4
 from core.tests.factory import ProductFactory
 from core.tests.gql_queries import order as order_queries
@@ -64,7 +65,11 @@ def test_invalid_inputs_provided(authenticated_client, db, test_case, request):
     assert data["order"] is None
 
 
-def test_create_order_successfully(authenticated_client, db):
+@patch("core.graphql.order.mutations.send_order_confirmation_email_to_admin")
+@patch("core.graphql.order.mutations.send_order_confirmation_sms_to_customer")
+def test_create_order_successfully(
+    mock_send_sms, mock_send_email, authenticated_client, db
+):
     product = ProductFactory.create(stock=10, price=100.00)
     address = generate_address()
     quantity = 2
@@ -88,3 +93,9 @@ def test_create_order_successfully(authenticated_client, db):
     assert order_data["address"]["city"] == address["city"]
     product.refresh_from_db()
     assert product.stock == 8
+    created_order = product.orders.first()
+    assert created_order is not None
+    mock_send_email.schedule.assert_called_once()
+    mock_send_email.schedule.assert_called_with(args=(created_order.id,))
+    mock_send_sms.schedule.assert_called_once()
+    mock_send_sms.schedule.assert_called_with(args=(created_order.id,))

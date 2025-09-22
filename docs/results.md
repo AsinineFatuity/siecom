@@ -10,5 +10,8 @@ Services consumed for this were:
 - [docker hub](https://hub.docker.com/r/asininefatuity/siecom) to host the docker container
 - [digital ocean kubernetes](https://www.digitalocean.com/products/kubernetes) to provision the kubernetes cluster
 - [digital ocean command line interface](https://github.com/digitalocean/doctl) to connect provisioned cluster with `kubectl`
+### Unit & Integration Tests
+The following screenshots are for a summary test runs and coverage report
+<img width="2552" height="880" alt="image" src="https://github.com/user-attachments/assets/c458015e-0397-4631-a90f-9b82a66d312b" />
 
 

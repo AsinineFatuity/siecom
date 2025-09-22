@@ -15,7 +15,11 @@ class AddressType(CustomDjangoObjectType):
         fields = "__all__"
 
     def resolve_phone_number(root, info):
-        return root.phone_number.as_international if root.phone_number else ""
+        return (
+            root.phone_number.as_international.replace(" ", "")
+            if root.phone_number
+            else ""
+        )
 
 
 class AddressInputType(graphene.InputObjectType):

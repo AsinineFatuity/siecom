@@ -1,5 +1,5 @@
 def create_order_mutation(product_id: str, quantity: int):
-    return """mutation(address: AddressInputType!) {
+    return """mutation($address: AddressInputType!) {
         createOrder(productId: "%s", quantity: %d, address: $address) {
             order {
                 id

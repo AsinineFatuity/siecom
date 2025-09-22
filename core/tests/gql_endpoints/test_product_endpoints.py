@@ -101,7 +101,7 @@ def test_create_product_invalid_inputs(authenticated_client, test_case, request,
     """
     Test creating products with invalid inputs.
     """
-    test_id = request.node.name
+    test_id = request.node.callspec.id
     categories_input = (
         test_case["input"]
         if "duplicate_category_name" in test_id

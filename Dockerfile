@@ -1,6 +1,7 @@
 # snippets and rationale from https://gist.github.com/adamghill/419d02e95b1563ad76b0c36995e829b8
-FROM python:3.13-slim-bookworm AS builder
+FROM python:3.13-slim-bookworm AS base
 
+FROM base AS builder
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
@@ -23,7 +24,7 @@ RUN --mount=type=cache,target=/root/.cache/pip --mount=type=cache,target=/root/.
     uv pip install --requirement pyproject.toml
 
 # --- final image ---
-FROM python:3.13-slim-bookworm AS runtime
+FROM base
 
 COPY . /app
 COPY --from=builder /opt/venv /opt/venv

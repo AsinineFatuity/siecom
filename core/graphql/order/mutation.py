@@ -5,6 +5,10 @@ from core.models import Order, Address, Product
 from siecom.decorators import logged_in_user_required
 from core.graphql.order.types import OrderType, AddressInputType
 from core.graphql.order.feedback import OrderFeedback
+from core.tasks import (
+    send_order_confirmation_email_to_admin,
+    send_order_confirmation_sms_to_customer,
+)
 
 
 class CreateOrder(graphene.Mutation):
@@ -48,6 +52,8 @@ class CreateOrder(graphene.Mutation):
                 address_id=address_instance.id,
                 quantity=quantity,
             )
+            send_order_confirmation_email_to_admin.schedule(order.id)
+            send_order_confirmation_sms_to_customer.schedule(order.id)
             return CreateOrder(
                 order=order, success=True, message=OrderFeedback.ORDER_CREATION_SUCCESS
             )

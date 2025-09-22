@@ -13,5 +13,12 @@ Services consumed for this were:
 ### Unit & Integration Tests
 The following screenshots are for a summary test runs and coverage report
 <img width="2552" height="880" alt="image" src="https://github.com/user-attachments/assets/c458015e-0397-4631-a90f-9b82a66d312b" />
+### Email & SMS Confirmation
+Email Confirmation to admin when order is made 
+<img width="1929" height="1112" alt="image" src="https://github.com/user-attachments/assets/447377fa-4371-4a75-95b8-e1e7992953c6" />
+This was executed asynchronously by `huey`
+<img width="2547" height="1024" alt="image" src="https://github.com/user-attachments/assets/fc8271ec-c804-4a2c-9adc-9162a77fce64" />
+
+
 
 

@@ -255,6 +255,19 @@ wheels = [
 ]
 
 [[package]]
+name = "django-huey"
+version = "1.3.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "django" },
+    { name = "huey" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/f2/a3/ca67a0c6b469f72a73e8e9e41dce6b918e35404c72994b78df5a5cea0a89/django_huey-1.3.0.tar.gz", hash = "sha256:011102430e949fe5807df2c44ccbfd812671a77e5dda552907c07ded554ab92f", size = 11059, upload-time = "2025-06-02T00:22:52.834Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ab/2b/7203e18a1b8c6086ca5ab5899105dc877484d974532da9346ca2c87bd964/django_huey-1.3.0-py3-none-any.whl", hash = "sha256:b2db87248638e8b242cfd3a80a708c8940a23c4b23738e1bc00d26b1760be996", size = 12611, upload-time = "2025-06-02T00:22:48.97Z" },
+]
+
+[[package]]
 name = "django-phonenumber-field"
 version = "8.1.0"
 source = { registry = "https://pypi.org/simple" }
@@ -389,6 +402,12 @@ sdist = { url = "https://files.pythonhosted.org/packages/34/72/9614c465dc206155d
 wheels = [
     { url = "https://files.pythonhosted.org/packages/cb/7d/6dac2a6e1eba33ee43f318edbed4ff29151a49b5d37f080aad1e6469bca4/gunicorn-23.0.0-py3-none-any.whl", hash = "sha256:ec400d38950de4dfd418cff8328b2c8faed0edb0d517d3394e457c317908ca4d", size = 85029, upload-time = "2024-08-10T20:25:24.996Z" },
 ]
+
+[[package]]
+name = "huey"
+version = "2.5.3"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/86/8c/2dfecf3705f5e522097b4e9fb6fb38e627a0340f8362cc05bd7a845e4279/huey-2.5.3.tar.gz", hash = "sha256:089fc72b97fd26a513f15b09925c56fad6abe4a699a1f0e902170b37e85163c7", size = 836918, upload-time = "2025-03-19T14:46:51.614Z" }
 
 [[package]]
 name = "idna"
@@ -598,6 +617,15 @@ wheels = [
 ]
 
 [[package]]
+name = "redis"
+version = "6.4.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/0d/d6/e8b92798a5bd67d659d51a18170e91c16ac3b59738d91894651ee255ed49/redis-6.4.0.tar.gz", hash = "sha256:b01bc7282b8444e28ec36b261df5375183bb47a07eb9c603f284e89cbc5ef010", size = 4647399, upload-time = "2025-08-07T08:10:11.441Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e8/02/89e2ed7e85db6c93dfa9e8f691c5087df4e3551ab39081a4d7c6d1f90e05/redis-6.4.0-py3-none-any.whl", hash = "sha256:f0544fa9604264e9464cdf4814e7d4830f74b165d52f2a330a760a88dd248b7f", size = 279847, upload-time = "2025-08-07T08:10:09.84Z" },
+]
+
+[[package]]
 name = "requests"
 version = "2.32.5"
 source = { registry = "https://pypi.org/simple" }
@@ -682,14 +710,17 @@ dependencies = [
     { name = "cryptography" },
     { name = "dj-database-url" },
     { name = "django" },
+    { name = "django-huey" },
     { name = "django-phonenumber-field", extra = ["phonenumberslite"] },
     { name = "django-tree-queries" },
     { name = "graphene-django" },
     { name = "gunicorn" },
+    { name = "huey" },
     { name = "psycopg2-binary" },
     { name = "pytest-cov" },
     { name = "python-decouple" },
     { name = "python-jose" },
+    { name = "redis" },
     { name = "requests" },
     { name = "ruff" },
 ]
@@ -707,14 +738,17 @@ requires-dist = [
     { name = "cryptography", specifier = ">=46.0.1" },
     { name = "dj-database-url", specifier = ">=3.0.1" },
     { name = "django", specifier = ">=5.2.6" },
+    { name = "django-huey", specifier = ">=1.3.0" },
     { name = "django-phonenumber-field", extras = ["phonenumberslite"], specifier = ">=8.1.0" },
     { name = "django-tree-queries", specifier = ">=0.21.1" },
     { name = "graphene-django", specifier = ">=3.2.3" },
     { name = "gunicorn", specifier = ">=23.0.0" },
+    { name = "huey", specifier = ">=2.5.3" },
     { name = "psycopg2-binary", specifier = ">=2.9.10" },
     { name = "pytest-cov", specifier = ">=7.0.0" },
     { name = "python-decouple", specifier = ">=3.8" },
     { name = "python-jose", specifier = ">=3.5.0" },
+    { name = "redis", specifier = ">=6.4.0" },
     { name = "requests", specifier = ">=2.32.5" },
     { name = "ruff", specifier = ">=0.13.0" },
 ]

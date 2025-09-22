@@ -5,6 +5,7 @@ import dj_database_url
 from pathlib import Path
 from decouple import config
 from siecom.utils import get_environment, PROD_ENVIRONMENT
+from huey import RedisHuey
 
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 TO_SET_WARNING_LOGGING_LEVEL = ["factory", "faker", "urllib3"]
@@ -34,7 +35,12 @@ DJANGO_APPS = [
 ]
 
 PROJECT_APPS = ["core"]
-THIRD_PARTY_APPS = ["phonenumber_field", "graphene_django", "tree_queries"]
+THIRD_PARTY_APPS = [
+    "phonenumber_field",
+    "graphene_django",
+    "tree_queries",
+    "huey.contrib.djhuey",
+]
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
@@ -129,3 +135,10 @@ STATIC_ROOT = "/home/app/staticfiles"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+HUEY = RedisHuey(
+    "siecom",
+    host=config("REDIS_HOST", default="localhost"),
+    port=config("REDIS_PORT", default=6379, cast=int),
+    db=config("REDIS_DB", default=0, cast=int),
+)

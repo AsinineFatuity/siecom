@@ -4,7 +4,7 @@ from decouple import config
 from typing import List
 
 
-class ZeptoMailClient:
+class EmailService:
     ZEPTO_AUTH_TOKEN = config("ZEPTO_AUTH_TOKEN", default="", cast=str)
     ZEPTO_URL = "https://api.zeptomail.com/v1.1/email"
     DEFAULT_MAIL_FROM = config("EMAIL_HOST_USER", default="", cast=str)

@@ -2,10 +2,7 @@ name: Siecom CI
 description: "Continuous Integration for Siecom Project"
 on:
   pull_request:
-    # branches: [ main ]
-  push:
-    # branches: [ main ]
-
+    branches: [ main ]
 jobs:
   lint:
     runs-on: ubuntu-latest

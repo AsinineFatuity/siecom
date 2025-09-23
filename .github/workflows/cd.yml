@@ -12,10 +12,13 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
-
-      - name: Set up Kubeconfig
+      - name: Install doctl
         run: |
-          mkdir -p $HOME/.kube
-          echo "${{ secrets.KUBE_CONFIG }}" > $HOME/.kube/config
+            curl -sL https://github.com/digitalocean/doctl/releases/download/v1.116.0/doctl-1.116.0-linux-amd64.tar.gz | tar -xzv
+            sudo mv doctl /usr/local/bin
+      - name: Authenticate doctl
+        run: doctl auth init -t ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      - name: Save kubeconfig
+        run: doctl kubernetes cluster kubeconfig save siecom
       - name: Test kubectl connectivity
         run: kubectl get nodes

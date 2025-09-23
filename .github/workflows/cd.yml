@@ -1,10 +1,10 @@
 name: Siecom CD
 description: "Continuous Deployment for Siecom Project"
 on:
-    push:
-      branches:
-        - main
-    workflow_dispatch:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -14,17 +14,25 @@ jobs:
         uses: actions/checkout@v3
       - name: Install doctl
         run: |
-            curl -sL https://github.com/digitalocean/doctl/releases/download/v1.116.0/doctl-1.116.0-linux-amd64.tar.gz | tar -xzv
-            sudo mv doctl /usr/local/bin
+          curl -sL https://github.com/digitalocean/doctl/releases/download/v1.116.0/doctl-1.116.0-linux-amd64.tar.gz | tar -xzv
+          sudo mv doctl /usr/local/bin
       - name: Authenticate doctl
         run: doctl auth init -t ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
       - name: Save kubeconfig
         run: doctl kubernetes cluster kubeconfig save siecom
       - name: Test kubectl connectivity
         run: kubectl get nodes
+      - name: Create .env.prod from Github Secrets
+        run: |
+          echo "${{ secrets.ENV_PROD_FILE }}" > .env.prod
+      - name: Apply Kubernetes Secrets
+        run: |
+          kubectl create secret generic siecom-secrets \
+            --from-env-file=.env.prod \
+            --dry-run=client -o yaml | kubectl apply -f -
       - name: Deploy to Kubernetes
         run: |
-            kubectl apply -f k8s/deployment.yml
-            kubectl rollout restart deployment siecom-deployment
+          kubectl apply -f k8s/deployment.yml
+          kubectl rollout restart deployment siecom-deployment
       - name: Verify Deployment
         run: kubectl rollout status deployment siecom-deployment --timeout=60s

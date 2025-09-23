@@ -24,7 +24,8 @@ Configured `Africa's Talking` successfully but upon sending messages, I got resp
 <img width="2541" height="1022" alt="smsResp" src="https://github.com/user-attachments/assets/de9c3f3d-6dd2-4d41-9f7c-4dbfd632b362" />
 ### Continuous Integration With Github Actions
 <img width="1762" height="912" alt="image" src="https://github.com/user-attachments/assets/388e2b5d-5566-4ca0-aee0-fdf1e53fc893" />
-Complete history can be viewed [in the actions tab](https://github.com/AsinineFatuity/siecom/actions)
+### Continuous Delivery With Github Actions
+Complete history for CI/CD can be viewed [in the actions tab](https://github.com/AsinineFatuity/siecom/actions)
 
 
 

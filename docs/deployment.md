@@ -1,5 +1,7 @@
 ### Siecom Deployment 
 This microservice is deployed on kubernetes node
+* Docker image is built using `docker build -t <hub_username>/siecom:latest .`
+* Docker image is pushed to hub using `docker push <hub_username>/siecom:latest`
 To deploy run these commands
 1. Create secrets from your `.env` file by running `kubectl create secret generic siecom-secrets --from-env-file=.env`
 * Note that for `DATABASE_URL` and the other db variables, you'll need to use a hosted db (rds)

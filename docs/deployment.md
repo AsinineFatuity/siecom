@@ -1,5 +1,7 @@
 ### Siecom Deployment 
-This microservice is deployed on kubernetes node
+This microservice is deployed on kubernetes cluster
+
+The following are commands for the manual way 
 * Docker image is built using `docker build -t <hub_username>/siecom:latest .`
 * Docker image is pushed to hub using `docker push <hub_username>/siecom:latest`
 To deploy run these commands

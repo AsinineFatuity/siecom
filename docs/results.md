@@ -4,8 +4,9 @@ Here I provide annotated screenshots of the results of various project requireme
 ### Deployment Via Kubernetes
 Successful deployment via kubectl from terminal
 <img width="1869" height="310" alt="image" src="https://github.com/user-attachments/assets/5c236c16-5923-46f6-9e53-d9fd1b4ea463" />
-Microservice available online via public ip [http://174.138.123.164]
-<img width="2521" height="915" alt="image" src="https://github.com/user-attachments/assets/ded76f94-0939-4937-a238-e678fcb2be74" />
+Microservice available online via public ip [http://174.138.123.164/]
+<img width="2535" height="1101" alt="image" src="https://github.com/user-attachments/assets/f01fb751-31c3-4771-bc89-830cfef30ee8" />
+
 Services consumed for this were:
 - [docker hub](https://hub.docker.com/r/asininefatuity/siecom) to host the docker container
 - [digital ocean kubernetes](https://www.digitalocean.com/products/kubernetes) to provision the kubernetes cluster
@@ -25,6 +26,8 @@ Configured `Africa's Talking` successfully but upon sending messages, I got resp
 ### Continuous Integration With Github Actions
 <img width="1762" height="912" alt="image" src="https://github.com/user-attachments/assets/388e2b5d-5566-4ca0-aee0-fdf1e53fc893" />
 ### Continuous Delivery With Github Actions
+<img width="1800" height="1087" alt="image" src="https://github.com/user-attachments/assets/bbfed527-12ca-4208-b488-f75efb3931f7" />
+
 Complete history for CI/CD can be viewed [in the actions tab](https://github.com/AsinineFatuity/siecom/actions)
 
 

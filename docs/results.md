@@ -25,6 +25,7 @@ Configured `Africa's Talking` successfully but upon sending messages, I got resp
 <img width="2541" height="1022" alt="smsResp" src="https://github.com/user-attachments/assets/de9c3f3d-6dd2-4d41-9f7c-4dbfd632b362" />
 ### Continuous Integration With Github Actions
 <img width="1762" height="912" alt="image" src="https://github.com/user-attachments/assets/388e2b5d-5566-4ca0-aee0-fdf1e53fc893" />
+
 ### Continuous Delivery With Github Actions
 <img width="1800" height="1087" alt="image" src="https://github.com/user-attachments/assets/bbfed527-12ca-4208-b488-f75efb3931f7" />
 

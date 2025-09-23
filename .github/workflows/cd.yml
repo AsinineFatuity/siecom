@@ -1,9 +1,10 @@
 name: Siecom CD
 
 on:
-  workflow_dispatch:  # manual trigger for now
-  # later we can add push to main or tags
-
+    push:
+      branches:
+        - main
+    workflow_dispatch:
 jobs:
   deploy:
     runs-on: ubuntu-latest

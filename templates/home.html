@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Siecom Stores</title>
+    <title>Siecom Stores 🚀</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -45,6 +45,18 @@
             text-decoration: underline;
         }
 
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .rocket {
+            font-size: 3rem;
+            margin-top: 20px;
+            animation: float 2s infinite ease-in-out;
+        }
+
         @media (max-width: 480px) {
             body {
                 padding: 10px;
@@ -53,15 +65,16 @@
             p {
                 margin-top: 20px;
             }
+
+            .rocket {
+                font-size: 2.5rem;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Welcome to Siecom Stores</h1>
+    <h1>Welcome to Siecom Stores 🚀</h1>
     <h2>Microservice running successfully</h2>
-    <p>
-        Access the GraphQL Playground here: 
-        <a href="/graphql/">GraphQL Playground</a>
-    </p>
+    <div class="rocket">🚀</div>
 </body>
 </html>

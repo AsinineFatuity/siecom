@@ -15,7 +15,7 @@ The following screenshots are for a summary test runs and coverage report
 <img width="2552" height="880" alt="image" src="https://github.com/user-attachments/assets/c458015e-0397-4631-a90f-9b82a66d312b" />
 ### Email & SMS Confirmation
 Email Confirmation to admin when order is made 
-<img width="2076" height="1011" alt="image" src="https://github.com/user-attachments/assets/5d88cd9c-ec48-4fd4-b4e5-0c1d7500a5e2" />
+<img width="1768" height="1024" alt="emailExample2" src="https://github.com/user-attachments/assets/cb4868c1-6456-4beb-a859-46ee18422330" />
 
 This was executed asynchronously by `huey`
 <img width="2539" height="1045" alt="image" src="https://github.com/user-attachments/assets/d202c971-a9ca-4f31-b7a5-6cfef69c25d7" />

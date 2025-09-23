@@ -22,6 +22,13 @@ spec:
             - secretRef:
                 name: siecom-secrets
           command: ["gunicorn", "siecom.wsgi:application", "--bind", "0.0.0.0:8000"]
+        - name: huey
+          image: asininefatuity/siecom:latest
+          imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: siecom-secrets
+          command: ["python","manage.py", "run_huey"]
 
       initContainers:
         - name: migrate

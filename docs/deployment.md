@@ -3,7 +3,7 @@ This microservice is deployed on kubernetes node
 * Docker image is built using `docker build -t <hub_username>/siecom:latest .`
 * Docker image is pushed to hub using `docker push <hub_username>/siecom:latest`
 To deploy run these commands
-1. Create secrets from your `.env` file by running `kubectl create secret generic siecom-secrets --from-env-file=.env`
+1. Create secrets from your `.env.prod` file by running `kubectl create secret generic siecom-secrets --from-env-file=.env.prod`
 * Note that for `DATABASE_URL` and the other db variables, you'll need to use a hosted db (rds)
 2. `kubectl apply -f k8s/deployment.yml`
 3. `kubectl apply -f k8s/service.yml`
@@ -18,6 +18,6 @@ Pod name is gotten from previous command and container name from the `k8s/deploy
 
 4. You may restart your pods by running `kubectl rollout restart deployment siecom-deployment`
 5. Incase you update your `.env`, run the command 
-`kubectl create secret generic siecom-secrets   --from-env-file=.env --dry-run=client -o yaml | kubectl apply -f -`
+`kubectl create secret generic siecom-secrets   --from-env-file=.env.prod --dry-run=client -o yaml | kubectl apply -f -`
 6. Get the external IP for your pod by running `kubectl get svc siecom-service`. Then go the browser and navigate to
 `http:<your_external_ip>`

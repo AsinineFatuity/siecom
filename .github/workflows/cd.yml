@@ -1,0 +1,20 @@
+name: Siecom CD
+
+on:
+  workflow_dispatch:  # manual trigger for now
+  # later we can add push to main or tags
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Kubeconfig
+        run: |
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.KUBE_CONFIG }}" > $HOME/.kube/config
+      - name: Test kubectl connectivity
+        run: kubectl get nodes

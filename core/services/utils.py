@@ -10,12 +10,14 @@ class AlertUtils:
     @staticmethod
     def create_order_confirmation_email_alert(order: Order) -> str:
         context = {
-            "customer_name": order.user.first_name,
+            "customer_name": order.user.get_full_name(),
             "order_id": order.id,
             "product_name": order.product.name,
             "quantity": order.quantity,
             "price": order.total_price,
             "address": f"{order.address.street}, {order.address.city}",
+            "phone": order.address.formatted_phone_number,
+            "email": order.user.email,
             "now": order.created_at,
         }
         return render_to_string("email.html", context)

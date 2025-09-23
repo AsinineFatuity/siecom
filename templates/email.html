@@ -52,13 +52,14 @@
                     <td style="padding:8px 12px;">
                       <strong style="display:block;color:#0b66ff;margin-bottom:6px;">Customer</strong>
                       <div style="font-size:14px;color:#10243a;">{{ customer_name }}</div>
+                      <div style="font-size:13px;color:#3a556b;line-height:1.4;">{{ email }}</div>
+                      <div style="font-size:13px;color:#3a556b;line-height:1.4;">{{ phone }}</div>
                     </td>
                     <td style="padding:8px 12px;text-align:right;white-space:nowrap;">
                       <strong style="display:block;color:#0b66ff;margin-bottom:6px;">Total</strong>
                       <div style="font-size:15px;color:#10243a;">KES {{ price|intcomma }}</div>
                     </td>
                   </tr>
-
                   <tr>
                     <td colspan="2" style="padding:8px 12px;">
                       <strong style="display:block;color:#0b66ff;margin-bottom:6px;">Delivery address</strong>
@@ -74,21 +75,6 @@
                 </p>
               </td>
             </tr>
-
-            <!-- footer -->
-            <tr>
-              <td style="padding:16px 24px;background-color:#f6fbf9;color:#2b5340;font-size:13px;">
-                <table role="presentation" width="100%">
-                  <tr>
-                    <td style="vertical-align:middle;">
-                      <span style="font-weight:700;color:#0b66ff;">SIECOM STORES</span>
-                      <div style="margin-top:6px;color:#234a3b;opacity:0.9;">Automated order notification — generated {{ now }}</div>
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
-
           </table>
           <!-- end container -->
         </td>

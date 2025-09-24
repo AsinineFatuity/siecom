@@ -12,6 +12,27 @@ spec:
       labels:
         app: siecom
     spec:
+      volumes:
+        - name: static-files
+          emptyDir: {}  # ephemeral; for production use a PVC
+      initContainers:
+        - name: migrate
+          image: asininefatuity/siecom:latest
+          command: ["python", "manage.py", "migrate", "--noinput"]
+          envFrom:
+            - secretRef:
+                name: siecom-secrets
+
+        - name: collectstatic
+          image: asininefatuity/siecom:latest
+          command: ["python", "manage.py", "collectstatic", "--noinput", "--clear"]
+          envFrom:
+            - secretRef:
+                name: siecom-secrets
+          volumeMounts:
+            - name: static-files
+              mountPath: /home/app/staticfiles
+
       containers:
         - name: siecom
           image: asininefatuity/siecom:latest
@@ -22,6 +43,10 @@ spec:
             - secretRef:
                 name: siecom-secrets
           command: ["gunicorn", "siecom.wsgi:application", "--bind", "0.0.0.0:8000"]
+          volumeMounts:
+            - name: static-files
+              mountPath: /home/app/staticfiles
+
         - name: huey
           image: asininefatuity/siecom:latest
           imagePullPolicy: Always
@@ -29,18 +54,6 @@ spec:
             - secretRef:
                 name: siecom-secrets
           command: ["python","manage.py", "run_huey"]
-
-      initContainers:
-        - name: migrate
-          image: asininefatuity/siecom:latest
-          command: ["python", "manage.py", "migrate", "--noinput"]
-          envFrom:
-            - secretRef:
-                name: siecom-secrets
-        - name: collectstatic
-          image: asininefatuity/siecom:latest
-          command: ["python", "manage.py", "collectstatic", "--noinput", "--clear"]
-          envFrom:
-            - secretRef:
-                name: siecom-secrets
-        
+          volumeMounts:
+            - name: static-files
+              mountPath: /home/app/staticfiles

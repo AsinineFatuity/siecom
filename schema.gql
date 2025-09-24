@@ -1,0 +1,153 @@
+"""Exposes a URL that specifies the behavior of this scalar."""
+directive @specifiedBy(
+  """The URL that specifies the behavior of this scalar."""
+  url: String!
+) on SCALAR
+
+input AddressInputType {
+  phoneNumber: String!
+  street: String!
+  city: String!
+}
+
+type AddressType {
+  id: ID!
+  publicId: UUID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  user: UserType!
+  phoneNumber: String!
+  street: String!
+  city: String!
+  orders: [OrderType!]!
+}
+
+type AverageCategoryPriceType {
+  averagePrice: Float
+  category: CategoryType
+  success: Boolean
+  message: String
+}
+
+input CategoryInputType {
+  name: String!
+  description: String!
+}
+
+type CategoryType {
+  id: ID!
+  publicId: UUID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  parent: CategoryType
+  name: String!
+  description: String!
+  children: [CategoryType!]!
+  products: [ProductType!]!
+}
+
+type CreateOrder {
+  order: OrderType
+  success: Boolean
+  message: String
+}
+
+"""
+NOTE: Assumes that uploaded products have same category
+such that the category is a list of the hierarchy with the last item being the most specific.
+"""
+type CreateProduct {
+  success: Boolean
+  message: String
+  createdProducts: [ProductType]
+}
+
+"""
+The `DateTime` scalar type represents a DateTime
+value as specified by
+[iso8601](https://en.wikipedia.org/wiki/ISO_8601).
+"""
+scalar DateTime
+
+"""The `Decimal` scalar type represents a python Decimal."""
+scalar Decimal
+
+"""
+HACK: This mutation helps to test OIDC authentication.
+In production, authentication is handled by middleware.
+"""
+type LoginUser {
+  success: Boolean
+  message: String
+  user: UserType
+}
+
+type Mutation {
+  createOrder(address: AddressInputType!, productId: ID!, quantity: Int!): CreateOrder
+
+  """
+  NOTE: Assumes that uploaded products have same category
+  such that the category is a list of the hierarchy with the last item being the most specific.
+  """
+  createProduct(categories: [CategoryInputType]!, products: [ProductInputType]!): CreateProduct
+
+  """
+  HACK: This mutation helps to test OIDC authentication.
+  In production, authentication is handled by middleware.
+  """
+  loginUser(oidcAccessToken: String!): LoginUser
+}
+
+type OrderType {
+  id: ID!
+  publicId: UUID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  user: UserType!
+  product: ProductType!
+  address: AddressType!
+  quantity: Int!
+  status: String!
+  paymentMethod: String!
+  isPaid: Boolean!
+  totalPrice: Decimal!
+}
+
+input ProductInputType {
+  name: String!
+  description: String!
+  price: Float!
+  stock: Int!
+}
+
+type ProductType {
+  id: ID!
+  publicId: UUID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  category: CategoryType!
+  name: String!
+  description: String!
+  price: Decimal!
+  stock: Int!
+  orders: [OrderType!]!
+}
+
+type Query {
+  averagePricePerCategory(categoryId: ID!): AverageCategoryPriceType
+  userDetails: UserType
+}
+
+type UserType {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  email: String!
+}
+
+"""
+Leverages the internal Python implementation of UUID (uuid.UUID) to provide native UUID objects
+in fields, resolvers and input.
+"""
+scalar UUID
+

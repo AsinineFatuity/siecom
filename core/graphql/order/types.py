@@ -7,6 +7,7 @@ class OrderType(CustomDjangoObjectType):
     class Meta:
         model = Order
         fields = "__all__"
+        convert_choices_to_enum = False
 
 
 class AddressType(CustomDjangoObjectType):

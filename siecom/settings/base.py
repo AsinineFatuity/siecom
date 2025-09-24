@@ -22,6 +22,7 @@ SECRET_KEY = config("SECRET_KEY")
 ENVIRONMENT = get_environment()
 DEBUG = 0 if ENVIRONMENT == PROD_ENVIRONMENT else 1
 USE_DOCKER = config("USE_DOCKER", default=0, cast=int)
+CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:8000/", "http://localhost:8000/", "http://174.138.123.164/"]
 
 # Application definition
 

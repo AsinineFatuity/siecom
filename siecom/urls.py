@@ -8,7 +8,7 @@ from core.views import HomeView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("graphql/", csrf_exempt(GraphQLView.as_view(graphiql=True))),
+    path("graphql/", csrf_exempt(GraphQLView.as_view(graphiql=settings.DEBUG))),
     path("", HomeView.as_view(), name="home"),
 ]
 if settings.DEBUG:

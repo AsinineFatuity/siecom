@@ -14,7 +14,8 @@ spec:
     spec:
       volumes:
         - name: static-files
-          emptyDir: {}  # ephemeral; for production use a PVC
+          persistentVolumeClaim:
+            claimName: siecom-static-pvc 
       initContainers:
         - name: migrate
           image: asininefatuity/siecom:latest

@@ -1,5 +1,17 @@
 ## Siecom Stores
 A django-graphql microservice to model simple store operations
+
+### Features Overview
+**OIDC Authentication**: The microservice uses OpenID Connect (OIDC) for authentication and authorization. It is implemented in a stateless way: instead of storing session data or issuing its own JWTs, the service validates incoming tokens directly against the OIDC provider’s public resources (such as the .well-known configuration and JSON Web Keys). This ensures that only users with valid OIDC-issued tokens can access the service.This exists at [this endpoint](docs/schema.md#mutation)
+
+**Products & Product Categories**: The microservice exposes API endpoint that allow authenticated users to create products and organize them into categories. Categories are structured as a hierarchical tree and can be nested beyond three levels, enabling complex product taxonomies.
+
+**Average Category Price**: The microservice provides an [API endpoint](docs/schema.md#query) that allows authenticated users to calculate the average price of products within a given category.
+
+**Order Creation**: The microservice provides an [API endpoint](docs/schema.md#mutation) for authenticated users to create orders for selected products.
+
+**Order Alerts**: The microservice notifies admins of new orders via email to support dispatch, and sends order confirmations to customers via SMS.
+
 ### Set Up With Docker 
 1. Run `git clone` on your local directory
 2. Create a `.env` file in your root directory and populate per `.env.example`

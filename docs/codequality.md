@@ -3,6 +3,7 @@
 2. Whenever changes are made to code, run `ruff format` to format the changed files
 3. Ruff also enforces `PEP8` standards and detects non conformant code through linting
 4. Whenever changes are made to code, run `ruff check` to check for non comformant code
+
 To easily enforce these standards, you can do the following 
 * Go the `.git/hooks` folder and add create a `pre-commit` file then add the following
 ```bash 
@@ -27,4 +28,4 @@ else
 fi
 ```
 This custom precommit hook will ensure that all changed files are linted and formatted when `git commit` is run
-* Ensure you run `chmod +x .git/pre-commit` to make the script exec
+* Ensure you run `chmod +x .git/pre-commit` to make the script executable

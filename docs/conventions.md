@@ -1,6 +1,6 @@
 ## Coding Conventions
 1. Django models mutations are encapsulated as per [this convention](https://github.com/octoenergy/public-conventions/blob/main/conventions/django.md#encapsulate-model-mutation)
-2. For any new graphql schema endpoint implemented, the preferred folder structure is
+2. For any new graphql endpoint implemented, the preferred folder structure is
    * `core/graphql/endpoint_name` as `base_directory`
    * `base_directory/mutations.py` where all mutations endpoints live
    * `base_directory/queries.py` where all queries endpoints live

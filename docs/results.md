@@ -26,12 +26,7 @@ Configured `Africa's Talking` successfully but upon sending messages, I got resp
 ### Continuous Integration With Github Actions
 <img width="1798" height="771" alt="image" src="https://github.com/user-attachments/assets/dfadf307-7801-4a15-9bf6-69c18abab323" />
 
-### Continuous Delivery With Github Actions
+### Continuous Deployment With Github Actions
 <img width="1800" height="1087" alt="image" src="https://github.com/user-attachments/assets/bbfed527-12ca-4208-b488-f75efb3931f7" />
 
 Complete history for CI/CD can be viewed [in the actions tab](https://github.com/AsinineFatuity/siecom/actions)
-
-
-
-
-

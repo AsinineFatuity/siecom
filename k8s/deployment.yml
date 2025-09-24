@@ -19,8 +19,7 @@ spec:
     spec:
       volumes:
         - name: static-files
-          persistentVolumeClaim:
-            claimName: siecom-static-pvc 
+          emptyDir: {}
       initContainers:
         - name: migrate
           image: asininefatuity/siecom:latest

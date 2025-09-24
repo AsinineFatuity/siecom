@@ -30,8 +30,3 @@ Configured `Africa's Talking` successfully but upon sending messages, I got resp
 <img width="1800" height="1087" alt="image" src="https://github.com/user-attachments/assets/bbfed527-12ca-4208-b488-f75efb3931f7" />
 
 Complete history for CI/CD can be viewed [in the actions tab](https://github.com/AsinineFatuity/siecom/actions)
-
-
-
-
-

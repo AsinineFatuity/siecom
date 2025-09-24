@@ -44,11 +44,11 @@ These features can be viewed with annotated screen shots [here](docs/results.md)
 10. Install redis on your system and run `python manage.py run_huey` to run the background task process
 11. Navigate to `http://http://127.0.0.1:8000/` to confirm it is running successfully
 
-## Project Documentation
+### Project Documentation
 - [Installation](docs/installation.md)
 - [Coding Conventions](docs/conventions.md)
 - [Code Quality Enforcement](docs/codequality.md)
 - [Tests](docs/tests.md)
 - [Deployment](docs/deployment.md)
-- [GraphQL Api Documentation](docs/schema.md)
+- [Graphql Api Documentation](docs/schema.md)
 - [Results As Per Project Requirements](docs/results.md)

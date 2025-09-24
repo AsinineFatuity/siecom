@@ -23,6 +23,6 @@
 7. Create a local postgres db for app functioning and update `DATABASE_URL` in `.env` file accordingly
   * We use [dj-database-url](https://pypi.org/project/dj-database-url/) to configure django database values
 8. Run migrations `python manage.py migrate`
-9. Run `python3 manage.py runserver` to run the backend
+9. Run `python manage.py runserver` to run the backend
 10. Install redis on your system and run `python manage.py run_huey` to run the background task process
 11. Navigate to `http://http://127.0.0.1:8000/` to confirm it is running successfully

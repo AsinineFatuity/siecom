@@ -1,6 +1,8 @@
 ## Siecom Stores
 A django-graphql microservice to model simple store operations
 
+This microservice is deployed in kubernetes cluster at http://174.138.123.164/ with a CI/CD pipeline configured
+
 ### Features Overview
 **OIDC Authentication**: The microservice uses OpenID Connect (OIDC) for authentication and authorization. It is implemented in a stateless way: instead of storing session data or issuing its own JWTs, the service validates incoming tokens directly against the OIDC provider’s public resources (such as the .well-known configuration and JSON Web Keys). This ensures that only users with valid OIDC-issued tokens can access the service.This exists at [this endpoint](docs/schema.md#mutation)
 
@@ -11,6 +13,8 @@ A django-graphql microservice to model simple store operations
 **Order Creation**: The microservice provides an [API endpoint](docs/schema.md#mutation) for authenticated users to create orders for selected products.
 
 **Order Alerts**: The microservice notifies admins of new orders via email to support dispatch, and sends order confirmations to customers via SMS.
+
+These features can be viewed with annotated screen shots [here](docs/results.md)
 
 ### Set Up With Docker 
 1. Run `git clone` on your local directory
@@ -36,7 +40,7 @@ A django-graphql microservice to model simple store operations
 7. Create a local postgres db for app functioning and update `DATABASE_URL` in `.env` file accordingly
   * We use [dj-database-url](https://pypi.org/project/dj-database-url/) to configure django database values
 8. Run migrations `python manage.py migrate`
-9. Run `python3 manage.py runserver` to run the backend
+9. Run `python manage.py runserver` to run the backend
 10. Install redis on your system and run `python manage.py run_huey` to run the background task process
 11. Navigate to `http://http://127.0.0.1:8000/` to confirm it is running successfully
 

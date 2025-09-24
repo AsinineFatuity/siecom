@@ -26,6 +26,7 @@ A django-graphql microservice to model simple store operations
 8. Run migrations `python manage.py migrate`
 9. Run `python3 manage.py runserver` to run the backend
 10. Install redis on your system and run `python manage.py run_huey` to run the background task process
+11. Navigate to `http://http://127.0.0.1:8000/` to confirm it is running successfully
 
 ## Project Documentation
 - [Installation](docs/installation.md)
@@ -33,4 +34,5 @@ A django-graphql microservice to model simple store operations
 - [Code Quality Enforcement](docs/codequality.md)
 - [Tests](docs/tests.md)
 - [Deployment](docs/deployment.md)
+- [GraphQL Api Documentation](docs/schema.md)
 - [Results As Per Project Requirements](docs/results.md)

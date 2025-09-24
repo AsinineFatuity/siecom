@@ -1,4 +1,5 @@
 from huey.contrib.djhuey import db_task
+from decouple import config
 from core.models import Order
 from core.services import EmailService, AlertUtils, SMSService
 
@@ -8,7 +9,7 @@ def send_order_confirmation_email_to_admin(order_id: int):
     order = Order.objects.select_related("user", "product", "address").get(id=order_id)
     email_body = AlertUtils.create_order_confirmation_email_alert(order)
     email_service = EmailService(
-        recipients=[order.user.email],
+        recipients=[config("ORDERS_EMAIL")],
         html_body=email_body,
     )
     email_service.send_emails()

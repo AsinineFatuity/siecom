@@ -4,12 +4,13 @@
 2. Create a `.env` file in your root directory and populate per `.env.example`
 3. Run `docker compose up --build` to spin up the docker containers
 * We have the following services:
-  - `web` for our django/graphql app
+  - `web` for our django/graphql microservice
   - `pgdb` for the postgres database
   - `nginx` for our reverse proxy 
   - `huey` for background asynchronous task
   - `redis` for storing task queues
-4. Navigate to `http://http://127.0.0.1:8080/` to confirm it is running successfully
+4. Navigate to `http://127.0.0.1:8080/` to confirm it is running successfully
+5. All python commands to the `web` service will be prepended with `docker compose exec web` e.g `docker compose exec web python manage.py shell`
 
 ### Set Up Without Docker
 * Root directory refers to the location where `manage.py` file is
@@ -25,4 +26,4 @@
 8. Run migrations `python manage.py migrate`
 9. Run `python manage.py runserver` to run the backend
 10. Install redis on your system and run `python manage.py run_huey` to run the background task process
-11. Navigate to `http://http://127.0.0.1:8000/` to confirm it is running successfully
+11. Navigate to `http://127.0.0.1:8000/` to confirm it is running successfully

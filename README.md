@@ -6,7 +6,7 @@ This microservice is deployed in kubernetes cluster at http://174.138.123.164/ w
 ### Features Overview
 **OIDC Authentication**: The microservice uses OpenID Connect (OIDC) for authentication and authorization. It is implemented in a stateless way: instead of storing session data or issuing its own JWTs, the service validates incoming tokens directly against the OIDC provider’s public resources (such as the .well-known configuration and JSON Web Keys). This ensures that only users with valid OIDC-issued tokens can access the service.This exists at [this endpoint](docs/schema.md#mutation)
 
-**Products & Product Categories**: The microservice exposes API endpoint that allow authenticated users to create products and organize them into categories. Categories are structured as a hierarchical tree and can be nested beyond three levels, enabling complex product taxonomies.
+**Products & Product Categories**: The microservice exposes an [API endpoint](docs/schema.md#mutation) that allow authenticated users to create products and organize them into categories. Categories are structured as a hierarchical tree and can be nested beyond three levels, enabling complex product taxonomies.
 
 **Average Category Price**: The microservice provides an [API endpoint](docs/schema.md#query) that allows authenticated users to calculate the average price of products within a given category.
 

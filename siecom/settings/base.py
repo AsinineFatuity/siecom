@@ -46,6 +46,7 @@ THIRD_PARTY_APPS = [
     "graphene_django",
     "tree_queries",
     "huey.contrib.djhuey",
+    "django_extensions",
 ]
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + THIRD_PARTY_APPS
 

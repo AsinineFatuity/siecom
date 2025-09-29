@@ -27,6 +27,12 @@ spec:
           envFrom:
             - secretRef:
                 name: siecom-secrets
+        - name: init_db
+          image: asininefatuity/siecom:latest
+          command: ["python", "manage.py", "runscript", "init_db"]
+          envFrom:
+            - secretRef:
+                name: siecom-secrets
 
         - name: collectstatic
           image: asininefatuity/siecom:latest
@@ -37,12 +43,6 @@ spec:
           volumeMounts:
             - name: static-files
               mountPath: /home/app/staticfiles
-        - name: init_db
-          image: asininefatuity/siecom:latest
-          command: ["python", "manage.py", "runscript", "init_db"]
-          envFrom:
-            - secretRef:
-                name: siecom-secrets
 
       containers:
         - name: siecom

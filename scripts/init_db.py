@@ -64,6 +64,10 @@ def get_readmi_product_inputs():
 
 
 def create_products():
+    # check if products already exist to prevent duplicates
+    if Product.objects.exists():
+        logging.info(f"{__name__}:Products already exist. Skipping creation.")
+        return
     s_cat = get_samsung_category_inputs()
     s_prod = get_samsung_product_inputs()
     r_cat = get_readmi_category_inputs()

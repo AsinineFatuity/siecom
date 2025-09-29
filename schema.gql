@@ -135,6 +135,7 @@ type ProductType {
 
 type Query {
   averagePricePerCategory(categoryId: ID!): AverageCategoryPriceType
+  products(categoryId: ID): [ProductType]
   userDetails: UserType
 }
 

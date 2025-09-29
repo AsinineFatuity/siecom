@@ -11,6 +11,7 @@
   - `redis` for storing task queues
 4. Navigate to `http://127.0.0.1:8080/` to confirm it is running successfully
 5. All python commands to the `web` service will be prepended with `docker compose exec web` e.g `docker compose exec web python manage.py shell`
+6. Run prepend `manage.py runscript init_db` to populate db with products
 
 ### Set Up Without Docker
 * Root directory refers to the location where `manage.py` file is
@@ -24,6 +25,7 @@
 7. Create a local postgres db for app functioning and update `DATABASE_URL` in `.env` file accordingly
   * We use [dj-database-url](https://pypi.org/project/dj-database-url/) to configure django database values
 8. Run migrations `python manage.py migrate`
-9. Run `python manage.py runserver` to run the backend
-10. Install redis on your system and run `python manage.py run_huey` to run the background task process
-11. Navigate to `http://127.0.0.1:8000/` to confirm it is running successfully
+9. Run `python manage.py runscript init_db` to populate db with products
+10. Run `python manage.py runserver` to run the backend
+11. Install redis on your system and run `python manage.py run_huey` to run the background task process
+12. Navigate to `http://127.0.0.1:8000/` to confirm it is running successfully

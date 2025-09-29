@@ -3,66 +3,12 @@ from core.graphql.product.feedback import ProductFeedback
 from core.tests.gql_queries import product as product_queries
 from core.tests.utils import faker_factory
 from core.models import Product, Category
-
-
-def get_samsung_product_inputs():
-    return [
-        {
-            "name": "Note 10",
-            "description": faker_factory.sentence(),
-            "price": 50500,
-            "stock": 10,
-        },
-        {
-            "name": "Note 20 Ultra",
-            "description": faker_factory.sentence(),
-            "price": 119500,
-            "stock": 15,
-        },
-        {
-            "name": "S23 Ultra",
-            "description": faker_factory.sentence(),
-            "price": 93000,
-            "stock": 20,
-        },
-    ]
-
-
-def get_samsung_category_inputs():
-    return [
-        {"name": "Electronics", "description": faker_factory.sentence()},
-        {"name": "Mobile Phones", "description": faker_factory.sentence()},
-        {"name": "Smartphones", "description": faker_factory.sentence()},
-        {"name": "Android", "description": faker_factory.sentence()},
-        {"name": "Samsung", "description": faker_factory.sentence()},
-    ]
-
-
-def get_readmi_category_inputs():
-    original_categories = get_samsung_category_inputs()
-    # replace "Samsung" with Readmi
-    original_categories[-1] = {
-        "name": "Readmi",
-        "description": faker_factory.sentence(),
-    }
-    return original_categories
-
-
-def get_readmi_product_inputs():
-    return [
-        {
-            "name": "A3X",
-            "description": faker_factory.sentence(),
-            "price": 15000,
-            "stock": 30,
-        },
-        {
-            "name": "Note 13 Pro",
-            "description": faker_factory.sentence(),
-            "price": 52000,
-            "stock": 25,
-        },
-    ]
+from scripts.init_db import (
+    get_readmi_category_inputs,
+    get_readmi_product_inputs,
+    get_samsung_category_inputs,
+    get_samsung_product_inputs,
+)
 
 
 def get_total_price(products):
@@ -212,3 +158,41 @@ def test_calculate_average_price_per_category(
     assert data["averagePrice"] == expected_average_price
     assert data["success"]
     assert data["message"] == ProductFeedback.AVERAGE_PRICE_CALCULATION_SUCCESS
+
+
+FETCH_PRODUCTS_TEST_CASES = {
+    "by_category": {
+        "category_name": "Samsung",
+        "expected_product_count": 3,
+    },
+    "all_categories": {
+        "category_name": None,
+        "expected_product_count": 5,
+    },
+}
+
+
+@pytest.mark.parametrize(
+    "test_case",
+    FETCH_PRODUCTS_TEST_CASES.values(),
+    ids=FETCH_PRODUCTS_TEST_CASES.keys(),
+)
+def test_fetch_products_by_category(
+    authenticated_client, created_products, db, test_case, request
+):
+    """
+    Test fetching products by category.
+    """
+    test_id = request.node.callspec.id
+    category_id = None
+    if test_id == "by_category":
+        category_id = Category.objects.get(
+            name__iexact=test_case["category_name"]
+        ).public_id
+
+    response = authenticated_client.execute(
+        product_queries.fetch_products_query(category_id or "")
+    )
+    assert "errors" not in response
+    data = response["data"]["products"]
+    assert len(data) == test_case["expected_product_count"]

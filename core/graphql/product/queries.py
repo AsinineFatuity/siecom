@@ -1,18 +1,17 @@
 import graphene
 import traceback
 from django.db.models import Avg
-from siecom.decorators.authorization import logged_in_user_required
 from core.models import Product, Category
 from core.graphql.product.feedback import ProductFeedback
-from core.graphql.product.types import AverageCategoryPriceType
+from core.graphql.product.types import AverageCategoryPriceType, ProductType
 
 
 class ProductQuery(graphene.ObjectType):
     average_price_per_category = graphene.Field(
         AverageCategoryPriceType, category_id=graphene.ID(required=True)
     )
+    products = graphene.List(ProductType, category_id=graphene.ID(required=False))
 
-    @logged_in_user_required
     def resolve_average_price_per_category(root, info, category_id):
         try:
             category = Category.objects.get_object_by_public_id(category_id)
@@ -46,3 +45,13 @@ class ProductQuery(graphene.ObjectType):
                 average_price=0.0,
                 category=None,
             )
+
+    def resolve_products(root, info, category_id):
+        try:
+            products = Product.objects.select_related("category").all()
+            if category_id:
+                products = products.filter(category__public_id=category_id)
+            return products
+        except Exception:
+            traceback.print_exc()
+            return []

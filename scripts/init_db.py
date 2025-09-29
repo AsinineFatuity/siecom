@@ -1,3 +1,8 @@
+import logging
+from types import SimpleNamespace
+from core.models import Category, Product
+
+
 def get_samsung_product_inputs():
     return [
         {
@@ -56,3 +61,26 @@ def get_readmi_product_inputs():
             "stock": 25,
         },
     ]
+
+
+def create_products():
+    s_cat = get_samsung_category_inputs()
+    s_prod = get_samsung_product_inputs()
+    r_cat = get_readmi_category_inputs()
+    r_prod = get_readmi_product_inputs()
+
+    # Create typified inputs
+    s_cat_inputs = [SimpleNamespace(**cat) for cat in s_cat]
+    r_cat_inputs = [SimpleNamespace(**cat) for cat in r_cat]
+    s_prod_inputs = [SimpleNamespace(**prod) for prod in s_prod]
+    r_prod_inputs = [SimpleNamespace(**prod) for prod in r_prod]
+
+    s_cat_id = Category.create_category_hierarchy(s_cat_inputs)
+    r_cat_id = Category.create_category_hierarchy(r_cat_inputs)
+    Product.create_products(s_prod_inputs, s_cat_id)
+    Product.create_products(r_prod_inputs, r_cat_id)
+
+
+def run():
+    create_products()
+    logging.info(f"{__name__}:Products and categories created successfully.")

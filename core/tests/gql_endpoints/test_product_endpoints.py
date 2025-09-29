@@ -3,66 +3,12 @@ from core.graphql.product.feedback import ProductFeedback
 from core.tests.gql_queries import product as product_queries
 from core.tests.utils import faker_factory
 from core.models import Product, Category
-
-
-def get_samsung_product_inputs():
-    return [
-        {
-            "name": "Note 10",
-            "description": faker_factory.sentence(),
-            "price": 50500,
-            "stock": 10,
-        },
-        {
-            "name": "Note 20 Ultra",
-            "description": faker_factory.sentence(),
-            "price": 119500,
-            "stock": 15,
-        },
-        {
-            "name": "S23 Ultra",
-            "description": faker_factory.sentence(),
-            "price": 93000,
-            "stock": 20,
-        },
-    ]
-
-
-def get_samsung_category_inputs():
-    return [
-        {"name": "Electronics", "description": faker_factory.sentence()},
-        {"name": "Mobile Phones", "description": faker_factory.sentence()},
-        {"name": "Smartphones", "description": faker_factory.sentence()},
-        {"name": "Android", "description": faker_factory.sentence()},
-        {"name": "Samsung", "description": faker_factory.sentence()},
-    ]
-
-
-def get_readmi_category_inputs():
-    original_categories = get_samsung_category_inputs()
-    # replace "Samsung" with Readmi
-    original_categories[-1] = {
-        "name": "Readmi",
-        "description": faker_factory.sentence(),
-    }
-    return original_categories
-
-
-def get_readmi_product_inputs():
-    return [
-        {
-            "name": "A3X",
-            "description": faker_factory.sentence(),
-            "price": 15000,
-            "stock": 30,
-        },
-        {
-            "name": "Note 13 Pro",
-            "description": faker_factory.sentence(),
-            "price": 52000,
-            "stock": 25,
-        },
-    ]
+from scripts.init_db import (
+    get_readmi_category_inputs,
+    get_readmi_product_inputs,
+    get_samsung_category_inputs,
+    get_samsung_product_inputs,
+)
 
 
 def get_total_price(products):

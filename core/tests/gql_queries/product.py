@@ -41,3 +41,28 @@ def calculate_average_price_query(category_id: str):
     """
         % category_id
     )
+
+
+def fetch_products_query(category_id: str = None):
+    return (
+        """
+    query {
+        products(categoryId: "%s") {
+            id
+            name
+            description
+            price
+            stock
+            category {
+                id
+                name
+                parent {
+                    id
+                    name
+                }
+            }
+        }
+    }
+    """
+        % category_id
+    )

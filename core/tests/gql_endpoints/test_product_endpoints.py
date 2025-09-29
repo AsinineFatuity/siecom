@@ -212,3 +212,41 @@ def test_calculate_average_price_per_category(
     assert data["averagePrice"] == expected_average_price
     assert data["success"]
     assert data["message"] == ProductFeedback.AVERAGE_PRICE_CALCULATION_SUCCESS
+
+
+FETCH_PRODUCTS_TEST_CASES = {
+    "by_category": {
+        "category_name": "Samsung",
+        "expected_product_count": 3,
+    },
+    "all_categories": {
+        "category_name": None,
+        "expected_product_count": 5,
+    },
+}
+
+
+@pytest.mark.parametrize(
+    "test_case",
+    FETCH_PRODUCTS_TEST_CASES.values(),
+    ids=FETCH_PRODUCTS_TEST_CASES.keys(),
+)
+def test_fetch_products_by_category(
+    authenticated_client, created_products, db, test_case, request
+):
+    """
+    Test fetching products by category.
+    """
+    test_id = request.node.callspec.id
+    category_id = None
+    if test_id == "by_category":
+        category_id = Category.objects.get(
+            name__iexact=test_case["category_name"]
+        ).public_id
+
+    response = authenticated_client.execute(
+        product_queries.fetch_products_query(category_id or "")
+    )
+    assert "errors" not in response
+    data = response["data"]["products"]
+    assert len(data) == test_case["expected_product_count"]

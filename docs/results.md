@@ -13,7 +13,8 @@ Services consumed for this were:
 - [digital ocean command line interface](https://github.com/digitalocean/doctl) to connect provisioned cluster with `kubectl`
 ### Unit & Integration Tests
 The following screenshots are for a summary test runs and coverage report
-<img width="2552" height="880" alt="image" src="https://github.com/user-attachments/assets/c458015e-0397-4631-a90f-9b82a66d312b" />
+<img width="2545" height="903" alt="image" src="https://github.com/user-attachments/assets/4c3c4fce-f03e-4d73-be5c-47ebbeb7ef86" />
+
 ### Email & SMS Confirmation
 Email Confirmation to admin when order is made 
 <img width="1768" height="1024" alt="emailExample2" src="https://github.com/user-attachments/assets/cb4868c1-6456-4beb-a859-46ee18422330" />

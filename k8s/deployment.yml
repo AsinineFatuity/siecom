@@ -27,7 +27,7 @@ spec:
           envFrom:
             - secretRef:
                 name: siecom-secrets
-        - name: init_db
+        - name: init-db
           image: asininefatuity/siecom:latest
           command: ["python", "manage.py", "runscript", "init_db"]
           envFrom:

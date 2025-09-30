@@ -51,8 +51,13 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Run migrations
         run: uv run python manage.py migrate --noinput
-      - name: Run tests
-        run: uv run pytest -q --disable-warnings --maxfail=1
+      - name: Run tests with coverage
+        run: uv run pytest -q --disable-warnings --maxfail=1 --cov
+      - name: Upload coverage to Coveralls
+        run: uv run coveralls
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+        
 
   docker:
     runs-on: ubuntu-latest

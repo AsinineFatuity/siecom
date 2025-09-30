@@ -1,4 +1,6 @@
 ## Siecom Stores
+[![Coverage Status](https://coveralls.io/repos/github/AsinineFatuity/siecom/badge.svg)](https://coveralls.io/github/AsinineFatuity/siecom)
+
 A django-graphql microservice to model simple store operations
 
 This microservice is deployed in kubernetes cluster at http://174.138.123.164/ with a CI/CD pipeline configured

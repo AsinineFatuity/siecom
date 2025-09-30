@@ -19,3 +19,4 @@ htmlcov/
 staticfiles/
 kubectl
 kubectl.sha256
+.coveralls.yml

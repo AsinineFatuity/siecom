@@ -1,5 +1,5 @@
 ## Siecom Stores
-[![Coverage Status](https://coveralls.io/repos/github/AsinineFatuity/siecom/badge.svg)](https://coveralls.io/github/AsinineFatuity/siecom)
+[![Coverage Status](https://coveralls.io/repos/github/AsinineFatuity/siecom/badge.svg?branch=main)](https://coveralls.io/github/AsinineFatuity/siecom?branch=main)
 
 A django-graphql microservice to model simple store operations
 

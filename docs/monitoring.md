@@ -3,6 +3,7 @@
  - application's ability to receive traffic
  - database readiness 
  - cache readiness 
+ - redis readiness
 
 This is quickly accomplished using `curl` tool `curl -i http://174.138.123.164/healthz/` typical response is as below:
 

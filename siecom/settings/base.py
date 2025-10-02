@@ -154,9 +154,11 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 REDIS_HOST = "redis" if USE_DOCKER else "localhost"
+REDIS_PORT = 6379
+REDIS_DB = 0
 HUEY = RedisHuey(
     "siecom",
     host=REDIS_HOST,
-    port=6379,
-    db=0,
+    port=REDIS_PORT,
+    db=REDIS_DB,
 )

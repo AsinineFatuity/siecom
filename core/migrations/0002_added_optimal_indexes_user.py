@@ -8,11 +8,10 @@ class Migration(migrations.Migration):
     """
     NOTE: This migration uses a custom implementation of `RunPython` to create and drop indexes concurrently.
     The motivation was to avoid the blocking of the database during the migration in production
-    Also we had to remove the default RunSQL because for some reason, django was wrapping that in a transaction
-    (even with the `atomic = False` flag)
-    leading to errors
+    Also we had to remove the default RunSQL because
+    Even with atomic = False, Django still wrapped each RunSQL string in one execution hence the multiple statements were executed in one transaction block leading to the error    leading to errors
     django.db.utils.InternalError: DROP INDEX CONCURRENTLY cannot run inside a transaction block
-    inspired by https://hakibenita.com/django-foreign-keys
+    loosely inspired by https://hakibenita.com/django-foreign-keys
     """
 
     atomic = False

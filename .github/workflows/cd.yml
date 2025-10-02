@@ -47,9 +47,15 @@ jobs:
           kubectl create secret generic siecom-secrets \
             --from-env-file=.env.prod \
             --dry-run=client -o yaml | kubectl apply -f -
-      - name: Deploy to Kubernetes
+      - name: Deploy Redis to Kubernetes
         run: |
-          kubectl apply -f k8s/deployment.yml
+          kubectl apply -f k8s/redis-deployment.yml
+          kubectl apply -f k8s/redis-service.yml
+          kubectl rollout restart deployment redis
+      - name: Deploy Siecom to Kubernetes
+        run: |
+          kubectl apply -f k8s/siecom-deployment.yml
+          kubectl apply -f k8s/siecom-service.yml
           kubectl rollout restart deployment siecom-deployment
       - name: Verify Deployment
         run: kubectl rollout status deployment siecom-deployment --timeout=120s

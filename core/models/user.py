@@ -13,9 +13,11 @@ class User(AbstractUser, AuditIdentifierMixin):
     NOTE: These are also referred to as "customers" when dealing with orders.
     """
 
-    oidc_subject = models.CharField(max_length=255, default="", db_index=True)
+    oidc_subject = models.CharField(max_length=255, default="")
     oidc_issuer = models.URLField(default="")
-    email = models.EmailField(db_index=True, unique=True)
+    email = models.EmailField(
+        unique=True
+    )  # NOTE:though often queried by username, django adds index for unique constraint
     objects: Type[UserModelManager] = UserModelManager()
 
     USERNAME_FIELD = "email"
@@ -31,6 +33,11 @@ class User(AbstractUser, AuditIdentifierMixin):
     class Meta:
         verbose_name = "user"
         verbose_name_plural = "users"
+        indexes = [
+            models.Index(
+                fields=["oidc_subject", "email"], name="oidc_subject_email_idx"
+            ),
+        ]
 
     def __str__(self) -> str:
         return self.email
@@ -42,7 +49,6 @@ class User(AbstractUser, AuditIdentifierMixin):
                 raise ValueError(f"Invalid attribute: {key}")
         existing_user = cls.objects.filter(
             oidc_subject=user_info.get("oidc_subject"),
-            oidc_issuer=user_info.get("oidc_issuer"),
             email=user_info.get("email"),
         ).first()
         if existing_user:

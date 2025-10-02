@@ -36,10 +36,9 @@ def health_check(request: HttpRequest) -> JsonResponse:
         checks["cache"] = "error"
         status_code = 503
     checks["status"] = status_code
-    checks["message"] = "Health check completed"
     response_dict = {
         "status": "ok" if status_code == 200 else "error",
-        "message": checks["message"],
+        "message": "Health check completed",
         "checks": checks,
     }
     return JsonResponse(response_dict, status=status_code)

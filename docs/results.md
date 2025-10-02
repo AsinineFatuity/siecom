@@ -27,8 +27,7 @@ This was executed asynchronously by `huey`
 Configured `Africa's Talking` successfully but upon sending messages, I got response that sender id was in blacklist (tried activating all promo messages), should have arrived otherwise
 <img width="2541" height="1022" alt="smsResp" src="https://github.com/user-attachments/assets/de9c3f3d-6dd2-4d41-9f7c-4dbfd632b362" />
 ### Continuous Integration With Github Actions
-<img width="1798" height="771" alt="image" src="https://github.com/user-attachments/assets/dfadf307-7801-4a15-9bf6-69c18abab323" />
-
+![ci image with coveralls](../assets/ci.png)
 ### Continuous Deployment With Github Actions
 <img width="1800" height="1087" alt="image" src="https://github.com/user-attachments/assets/bbfed527-12ca-4208-b488-f75efb3931f7" />
 

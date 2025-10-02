@@ -5,6 +5,7 @@ inputs:
   python-version:
     required: true
     default: "3.13"
+    description: "Python version to use"
 
 runs:
   using: "composite"

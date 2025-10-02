@@ -11,6 +11,8 @@ Services consumed for this were:
 - [docker hub](https://hub.docker.com/r/asininefatuity/siecom) to host the docker container
 - [digital ocean kubernetes](https://www.digitalocean.com/products/kubernetes) to provision the kubernetes cluster
 - [digital ocean command line interface](https://github.com/digitalocean/doctl) to connect provisioned cluster with `kubectl`
+
+Details on **monitoring and observability** can be found [here](./monitoring.md)
 ### Unit & Integration Tests
 The following screenshots are for a summary test runs and coverage report
 <img width="2545" height="903" alt="image" src="https://github.com/user-attachments/assets/4c3c4fce-f03e-4d73-be5c-47ebbeb7ef86" />

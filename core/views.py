@@ -1,6 +1,8 @@
+import redis
 from django.db import connections
 from django.db.utils import OperationalError
 from django.core.cache import cache
+from django.conf import settings
 from django.views.generic import TemplateView
 from django.http import JsonResponse, HttpRequest
 
@@ -32,8 +34,20 @@ def health_check(request: HttpRequest) -> JsonResponse:
             status_code = 503
         else:
             checks["cache"] = "ok"
-    except Exception:
-        checks["cache"] = "error"
+    except Exception as e:
+        checks["cache"] = f"error: {e}"
+        status_code = 503
+    try:
+        r = redis.Redis(
+            host=settings.REDIS_HOST,
+            port=settings.REDIS_PORT,
+            db=settings.REDIS_DB,
+            socket_connect_timeout=10,
+        )
+        r.ping()
+        checks["redis"] = "ok"
+    except Exception as e:
+        checks["redis"] = f"error: {e}"
         status_code = 503
     checks["status"] = status_code
     response_dict = {

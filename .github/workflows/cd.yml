@@ -1,5 +1,4 @@
 name: Siecom CD
-description: "Continuous Deployment for Siecom Project"
 on:
   push:
     branches:
@@ -53,4 +52,4 @@ jobs:
           kubectl apply -f k8s/deployment.yml
           kubectl rollout restart deployment siecom-deployment
       - name: Verify Deployment
-        run: kubectl rollout status deployment siecom-deployment --timeout=60s
+        run: kubectl rollout status deployment siecom-deployment --timeout=120s

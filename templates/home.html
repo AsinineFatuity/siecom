@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,7 +20,8 @@
         }
 
         h1 {
-            font-size: clamp(2em, 5vw, 3em); /* scales between 2em and 3em based on viewport */
+            font-size: clamp(2em, 5vw, 3em);
+            /* scales between 2em and 3em based on viewport */
             margin: 0;
             color: #333;
         }
@@ -46,9 +48,17 @@
         }
 
         @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
         }
 
         .rocket {
@@ -72,9 +82,17 @@
         }
     </style>
 </head>
+
 <body>
     <h1>Welcome to Siecom Stores 🚀</h1>
     <h2>Microservice running successfully</h2>
     <div class="rocket">🚀</div>
+    <p>
+        <a href="{% url 'health_check' %}" target="_blank"
+            style="text-decoration: none; display: inline-block; padding: 10px 20px; background: #28a745; color: #fff; border-radius: 5px; font-size: 1em; margin-top: 20px;">
+            Check Health
+        </a>
+    </p>
 </body>
+
 </html>

@@ -23,8 +23,8 @@ You can debug any failures by running
 
 Pod name is gotten from previous command and container name from the `k8s/siecom-deployment.yml` file
 
-4. You may restart your pods by running `kubectl rollout restart deployment siecom-deployment`
-5. Incase you update your `.env`, run the command 
+6. You may restart your pods by running `kubectl rollout restart deployment siecom-deployment`
+7. Incase you update your `.env`, run the command 
 `kubectl create secret generic siecom-secrets   --from-env-file=.env.prod --dry-run=client -o yaml | kubectl apply -f -`
-6. Get the external IP for your pod by running `kubectl get svc siecom-service`. Then go the browser and navigate to
+8. Get the external IP for your pod by running `kubectl get svc siecom-service`. Then go the browser and navigate to
 `http:<your_external_ip>`

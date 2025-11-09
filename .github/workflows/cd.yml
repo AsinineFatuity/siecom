@@ -52,6 +52,11 @@ jobs:
           kubectl apply -f k8s/redis-deployment.yml
           kubectl apply -f k8s/redis-service.yml
           kubectl rollout restart deployment redis
+      - name: Deploy PGDB to Kubernetes
+        run: |
+          kubectl apply -f k8s/pgdb-deployment.yml
+          kubectl apply -f k8s/pgdb-service.yml
+          kubectl rollout restart deployment pgdb
       - name: Deploy Siecom to Kubernetes
         run: |
           kubectl apply -f k8s/siecom-deployment.yml

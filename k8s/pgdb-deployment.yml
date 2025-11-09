@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pgdb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pgdb
+  template:
+    metadata:
+      labels:
+        app: pgdb
+    spec:
+      containers:
+        - name: pgdb
+          image: postgres:17
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - secretRef:
+                name: siecom-secrets
+          readinessProbe:
+            tcpSocket:
+              port: 5432
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            tcpSocket:
+              port: 5432
+            initialDelaySeconds: 10
+            periodSeconds: 10
